@@ -12,6 +12,8 @@ public class UserMapper {
 
         user.setEmail(dto.getEmail());
 
+        user.setPhoneNumber(dto.getPhoneNumber());
+
 
 
         return user;
@@ -20,10 +22,11 @@ public class UserMapper {
         UserDTO dto = new UserDTO();
 
         dto.setName(entity.getName());
-        dto.setName(entity.getName());
 
         dto.setEmail(entity.getEmail());
-        dto.setEmail(entity.getEmail());
+
+        dto.setPhoneNumber(entity.getPhoneNumber());
+
 
         return dto;
     }

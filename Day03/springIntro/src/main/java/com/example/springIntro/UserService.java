@@ -56,6 +56,7 @@ public UserDTO updateUser(Long id, UserDTO dto) {
     // 2. Update fields
     user.setName(dto.getName());
     user.setEmail(dto.getEmail());
+    user.setPhoneNumber(dto.getPhoneNumber());
 
     // 3. Save updated user
     User updatedUser = userRepository.save(user);
