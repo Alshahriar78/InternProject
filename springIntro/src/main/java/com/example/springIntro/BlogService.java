@@ -1,5 +1,6 @@
 package com.example.springIntro;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.List;
@@ -18,27 +19,27 @@ public class BlogService {
     }
 
     // ✅ Create Blog
-    public BlogDTO createBlog(BlogDTO blogDTO) {
-        Blog blog = blogMapper.map(blogDTO);
-        blog.setCreatedAt(new Date());
-        blog.setUpdatedAt(new Date());
+    public BlogDTO createBlog(Long id, BlogDTO blogDTO) {
+        Blog blog = blogMapper.toEntity(blogDTO);
+
         Blog savedBlog = blogRepository.save(blog);
-        return blogMapper.map(savedBlog);
+        System.out.println(blogMapper.toDTO(savedBlog));
+        return blogMapper.toDTO(savedBlog);
     }
 
     // ✅ Get All Blogs
     public List<BlogDTO> getAllBlogs() {
         List<Blog> blogs = blogRepository.findAll();
         return blogs.stream()
-                .map(blogMapper::map)
+                .map(blogMapper::toDTO)
                 .collect(Collectors.toList());
     }
 
-    // ✅ Get Blog By ID
-    public BlogDTO getBlogById(Long id) {
-        Optional<Blog> blogOptional = blogRepository.findById(id);
-        return blogOptional.map(blogMapper::map).orElse(null);
-    }
+//    // ✅ Get Blog By ID
+//    public BlogDTO getBlogById(Long id) {
+//        Optional<Blog> blogOptional = blogRepository.findById(id);
+//        return blogOptional.map(blogMapper::toEntity).orElse(null);
+//    }
 
     // ✅ Update Blog
     public BlogDTO updateBlog(Long id, BlogDTO blogDTO) {
@@ -49,7 +50,7 @@ public class BlogService {
             blog.setContent(blogDTO.getContent());
             blog.setUpdatedAt(new Date());
             Blog updatedBlog = blogRepository.save(blog);
-            return blogMapper.map(updatedBlog);
+            return blogMapper.toDTO(updatedBlog);
         }
         return null;
     }

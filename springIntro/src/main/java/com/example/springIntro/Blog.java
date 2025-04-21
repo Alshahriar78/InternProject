@@ -21,7 +21,7 @@ public class Blog {
     private String content;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(nullable = false, name = "user_id")
+    @JoinColumn(nullable = false, name = "userdb")
     private User author;
 
     private Date createdAt;

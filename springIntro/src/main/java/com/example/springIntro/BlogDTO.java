@@ -18,15 +18,8 @@ public class BlogDTO {
     private String content;
 
 
-    @JsonProperty("created_at")
-    private Date createdAt;
-
-    @JsonProperty("updated_at")
-    private Date updatedAt;
-
     @JsonProperty("rating")
     private Double rating;
 
-    @JsonProperty("comments")
-    private List<BlogCommentDTO> comments;
+
 }

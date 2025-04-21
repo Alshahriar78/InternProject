@@ -2,9 +2,7 @@ package com.example.springIntro;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+
 
 import java.util.Optional;
 
@@ -17,32 +15,26 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public void save(UserDTO dto){
+    public String userDetailsSave(UserDTO dto){
         UserMapper mapper = new UserMapper();
-        User entity = mapper.map(dto);
+        User entity = mapper.toEntity(dto);
 
         // business logic
         userRepository.save(entity);
-    }
-    public ResponseEntity<UserDTO> findById(Long id){
-        Optional<User> user = userRepository.findById(id);
-        if(user.isPresent()){
-            return ResponseEntity.ok(userMapper.map(user.get()));
-        }
-        else{
-            return ResponseEntity.notFound().build();
-        }
+        return "User save Successful.......";
     }
 
 
 
 
 
-    public void deleteById(Long id) {
+
+    public String deleteById(Long id) {
         if (!userRepository.existsById(id)) {
             throw new RuntimeException("User not found with id: " + id);
         }
         userRepository.deleteById(id);
+        return "User delete Successful.......";
     }
 
 //    @PutMapping("/{id}")
@@ -64,7 +56,11 @@ public UserDTO updateUser(Long id, UserDTO dto) {
     User updatedUser = userRepository.save(user);
 
     // 4. Return mapped DTO
-    return userMapper.map(updatedUser);
+    return userMapper.toDTO(updatedUser);
 }
 
+
+    public UserDTO userFindById(Long id) {
+        return userMapper.toDTO(userRepository.findById(id).get());
+    }
 }

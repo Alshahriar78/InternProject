@@ -5,13 +5,14 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class BlogMapper {
-    public Blog map(BlogDTO dto) {
+    public Blog toEntity(BlogDTO dto) {
         Blog blog = new Blog();
         blog.setTitle(dto.getTitle());
         blog.setContent(dto.getContent());
+        blog.setRating(dto.getRating());
         return blog;
     }
-    public BlogDTO map(Blog entity) {
+    public BlogDTO toDTO(Blog entity) {
         BlogDTO dto = new BlogDTO();
         dto.setTitle(entity.getTitle());
         dto.setContent(entity.getContent());

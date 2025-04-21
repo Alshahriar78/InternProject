@@ -6,27 +6,24 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class Controller {
     private final UserService userService;
-    private final BlogService blogService;
 
-    public Controller(UserService userService, BlogService blogService) {
+
+    public Controller(UserService userService) {
         this.userService = userService;
-        this.blogService = blogService;
+
     }
 
-//    @PostMapping("/api/v1/user")
-//    public void saveUser(@RequestBody UserDTO dto ) {
-//        userService.save(dto);
-//    }
-
-    @PostMapping("/api/v1/user/add")
-    public ResponseEntity<String> save(@RequestBody UserDTO dto) {
-        userService.save(dto);
-        return ResponseEntity.ok("User saved successfully");
+    @PostMapping("/api/v1/user")
+    public String saveUser(@RequestBody UserDTO dto ) {
+        userService.userDetailsSave(dto);
+        return "User saved successfully";
     }
 
-    @GetMapping("/api/v1/user/seach/{id}")
-    public ResponseEntity<UserDTO> getUserById(@PathVariable("id") Long id) {
-        return userService.findById(id);
+
+
+    @GetMapping("/api/v1/user/Seach/{id}")
+    public UserDTO getUserById(@PathVariable("id") Long id) {
+        return userService.userFindById(id);
     }
 
     @DeleteMapping("/api/v1/user/delete/{id}")
@@ -41,9 +38,7 @@ public class Controller {
     }
 
     @PutMapping("/api/v1/user/update/{id}")
-    public ResponseEntity<UserDTO> updateUser(
-            @PathVariable Long id,
-            @RequestBody UserDTO dto) {
+    public ResponseEntity<UserDTO> updateUser(@PathVariable Long id,  @RequestBody UserDTO dto) {
         UserDTO updated = userService.updateUser(id, dto);
         return ResponseEntity.ok(updated);
     }
