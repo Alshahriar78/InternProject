@@ -21,12 +21,12 @@ public class BlogCommentService {
         this.blogCommentMapper = commentMapper;
     }
 
-    // Create a new comment
-    public BlogCommentDTO createComment(BlogCommentDTO blogcommentDTO) {
-        BlogComment comment = blogCommentMapper.map(blogcommentDTO);
-
-        return blogCommentRepository.save(comment);
-    }
+//     Create a new comment
+//    public BlogCommentDTO createComment(BlogCommentDTO blogcommentDTO) {
+//        BlogComment comment = blogCommentMapper.map(blogcommentDTO);
+//
+//        return blogCommentRepository.save(comment);
+//    }
 
     // Get all comments
     public List<BlogCommentDTO> getAllComments() {

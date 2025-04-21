@@ -6,9 +6,11 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class Controller {
     private final UserService userService;
+    private final BlogService blogService;
 
-    public Controller(UserService userService) {
+    public Controller(UserService userService, BlogService blogService) {
         this.userService = userService;
+        this.blogService = blogService;
     }
 
 //    @PostMapping("/api/v1/user")
@@ -45,6 +47,10 @@ public class Controller {
         UserDTO updated = userService.updateUser(id, dto);
         return ResponseEntity.ok(updated);
     }
+
+
+
+
 
 
 }
