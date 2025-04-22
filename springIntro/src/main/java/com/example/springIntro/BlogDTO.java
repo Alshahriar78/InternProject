@@ -18,8 +18,7 @@ public class BlogDTO {
     private String content;
 
 
-    @JsonProperty("rating")
-    private Double rating;
+
 
 
 }

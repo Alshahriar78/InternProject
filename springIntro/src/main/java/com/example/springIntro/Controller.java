@@ -3,13 +3,18 @@ package com.example.springIntro;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
+import java.util.List;
+
 @RestController
 public class Controller {
     private final UserService userService;
+    private final UserMapper userMapper;
 
 
-    public Controller(UserService userService) {
+    public Controller(UserService userService, UserMapper userMapper) {
         this.userService = userService;
+        this.userMapper = userMapper;
 
     }
 
@@ -41,6 +46,12 @@ public class Controller {
     public ResponseEntity<UserDTO> updateUser(@PathVariable Long id,  @RequestBody UserDTO dto) {
         UserDTO updated = userService.updateUser(id, dto);
         return ResponseEntity.ok(updated);
+    }
+
+    @GetMapping("api/v1/Aluser")
+    public List<UserDTO> getAllUsers() {
+     return userService.allUser();
+
     }
 
 

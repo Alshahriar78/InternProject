@@ -9,7 +9,6 @@ public class BlogMapper {
         Blog blog = new Blog();
         blog.setTitle(dto.getTitle());
         blog.setContent(dto.getContent());
-        blog.setRating(dto.getRating());
         return blog;
     }
     public BlogDTO toDTO(Blog entity) {

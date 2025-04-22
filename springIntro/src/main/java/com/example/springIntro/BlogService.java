@@ -12,18 +12,21 @@ public class BlogService {
 
     private final BlogMapper blogMapper;
     private final BlogRepository blogRepository;
+    private final UserRepository userRepository;
 
-    public BlogService(BlogMapper blogMapper, BlogRepository blogRepository) {
+    public BlogService(BlogMapper blogMapper, BlogRepository blogRepository, UserRepository userRepository) {
         this.blogMapper = blogMapper;
         this.blogRepository = blogRepository;
+        this.userRepository = userRepository;
     }
 
     // ✅ Create Blog
     public BlogDTO createBlog(Long id, BlogDTO blogDTO) {
+        System.out.println(blogDTO);
         Blog blog = blogMapper.toEntity(blogDTO);
-
+        User bloguser= userRepository.findById(id).orElseThrow(() -> new RuntimeException("Author not found with id: " + id)); // find author from user table
+        blog.setAuthor(bloguser);// set author from user table
         Blog savedBlog = blogRepository.save(blog);
-        System.out.println(blogMapper.toDTO(savedBlog));
         return blogMapper.toDTO(savedBlog);
     }
 
@@ -48,7 +51,6 @@ public class BlogService {
             Blog blog = blogOptional.get();
             blog.setTitle(blogDTO.getTitle());
             blog.setContent(blogDTO.getContent());
-            blog.setUpdatedAt(new Date());
             Blog updatedBlog = blogRepository.save(blog);
             return blogMapper.toDTO(updatedBlog);
         }

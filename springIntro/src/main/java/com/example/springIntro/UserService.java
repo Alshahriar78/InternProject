@@ -2,8 +2,12 @@ package com.example.springIntro;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import java.util.stream.Collectors;
 
 
+
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -62,5 +66,11 @@ public UserDTO updateUser(Long id, UserDTO dto) {
 
     public UserDTO userFindById(Long id) {
         return userMapper.toDTO(userRepository.findById(id).get());
+    }
+
+    public List<UserDTO> allUser() {
+        return  userRepository.findAll().stream()
+                .map(userMapper::toDTO)
+                .collect(Collectors.toList());
     }
 }

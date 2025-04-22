@@ -18,6 +18,7 @@ public class BlogController {
 
     @PostMapping("blog/create/{id}")
     public ResponseEntity<BlogDTO> createBlog(@PathVariable Long id ,@RequestBody BlogDTO blogDTO) {
+        System.out.println(blogDTO);
         BlogDTO createdBlog = blogService.createBlog(id, blogDTO);
         return ResponseEntity.ok(createdBlog);
     }
