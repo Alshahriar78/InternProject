@@ -1,11 +1,9 @@
-package com.example.springIntro;
+package com.example.springIntro.model.mapper;
 
+import com.example.springIntro.model.dto.UserDTO;
+import com.example.springIntro.model.entity.User;
 import org.springframework.stereotype.Component;
 
-//@Mapper(componentModel = "spring")
-//public interface UserMapper {
-//    UserDTO toDto(User user);
-//}
 @Component
 public class UserMapper {
     public User toEntity(UserDTO dto) {

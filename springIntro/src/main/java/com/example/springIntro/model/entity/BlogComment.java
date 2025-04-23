@@ -1,4 +1,4 @@
-package com.example.springIntro;
+package com.example.springIntro.model.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -17,9 +17,5 @@ public class BlogComment {
 
     @Column(nullable = false)
     private String content;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "blog_id")
-    private Blog blog;
 
 }

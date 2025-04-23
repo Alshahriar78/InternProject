@@ -1,32 +1,34 @@
-package com.example.springIntro;
+package com.example.springIntro.service;
 
-import com.example.springIntro.BlogCommentDTO;
-import com.example.springIntro.BlogComment;
-import com.example.springIntro.BlogCommentMapper;
-import com.example.springIntro.BlogCommentRepository;
+import com.example.springIntro.model.dto.BlogCommentDTO;
+import com.example.springIntro.model.entity.BlogComment;
+import com.example.springIntro.model.mapper.BlogCommentMapper;
+import com.example.springIntro.repo.BlogCommentRepository;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+
+@AllArgsConstructor
 @Service
 public class BlogCommentService {
 
     private final BlogCommentRepository blogCommentRepository;
     private final BlogCommentMapper blogCommentMapper;
 
-    public BlogCommentService(BlogCommentRepository commentRepository, BlogCommentMapper commentMapper) {
-        this.blogCommentRepository = commentRepository;
-        this.blogCommentMapper = commentMapper;
-    }
 
-//     Create a new comment
-//    public BlogCommentDTO createComment(BlogCommentDTO blogcommentDTO) {
-//        BlogComment comment = blogCommentMapper.map(blogcommentDTO);
-//
-//        return blogCommentRepository.save(comment);
-//    }
+
+
+    //     Create a new comment
+    public BlogCommentDTO createComment(BlogCommentDTO blogcommentDTO) {
+        BlogComment comment = blogCommentMapper.map(blogcommentDTO);
+
+        return blogCommentRepository.save(comment);
+    }
 
     // Get all comments
     public List<BlogCommentDTO> getAllComments() {

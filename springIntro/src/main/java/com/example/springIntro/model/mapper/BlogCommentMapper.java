@@ -1,5 +1,7 @@
-package com.example.springIntro;
+package com.example.springIntro.model.mapper;
 
+import com.example.springIntro.model.dto.BlogCommentDTO;
+import com.example.springIntro.model.entity.BlogComment;
 import org.springframework.stereotype.Component;
 @Component
 public class BlogCommentMapper {

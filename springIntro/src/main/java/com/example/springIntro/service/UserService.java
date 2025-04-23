@@ -1,13 +1,12 @@
-package com.example.springIntro;
+package com.example.springIntro.service;
 
+import com.example.springIntro.model.dto.UserDTO;
+import com.example.springIntro.model.entity.User;
+import com.example.springIntro.model.mapper.UserMapper;
+import com.example.springIntro.repo.UserRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import java.util.stream.Collectors;
 
-
-
-import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -19,26 +18,36 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public String userDetailsSave(UserDTO dto){
-        UserMapper mapper = new UserMapper();
-        User entity = mapper.toEntity(dto);
+    public ResponseEntity<String> save(UserDTO dto){
+        UserMapper mapper = new UserMapper();// create Object of mapper ;
+        User entity = mapper.toEntity(dto);// convert dto to entity;
+        userRepository.save(entity); // user saved to a database;
+        return ResponseEntity.ok("User saved successfully"); // Response Send to a client;
+    }
+    public ResponseEntity<UserDTO> seachByID(Long id){
+        Optional<User> user = userRepository.findById(id);
+        if(user.isPresent()){
+            return ResponseEntity.ok(userMapper.toDTO(user.get()));
+        }
+        else{
+            return ResponseEntity.notFound().build();
+        }
+    }
 
-        // business logic
-        userRepository.save(entity);
-        return "User save Successful.......";
+    public User findUserEntityById(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
     }
 
 
 
 
 
-
-    public String deleteById(Long id) {
+    public void deleteById(Long id) {
         if (!userRepository.existsById(id)) {
             throw new RuntimeException("User not found with id: " + id);
         }
         userRepository.deleteById(id);
-        return "User delete Successful.......";
     }
 
 //    @PutMapping("/{id}")
@@ -63,14 +72,4 @@ public UserDTO updateUser(Long id, UserDTO dto) {
     return userMapper.toDTO(updatedUser);
 }
 
-
-    public UserDTO userFindById(Long id) {
-        return userMapper.toDTO(userRepository.findById(id).get());
-    }
-
-    public List<UserDTO> allUser() {
-        return  userRepository.findAll().stream()
-                .map(userMapper::toDTO)
-                .collect(Collectors.toList());
-    }
 }

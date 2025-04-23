@@ -1,39 +1,30 @@
-package com.example.springIntro;
+package com.example.springIntro.model.entity;
+
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.List;
 
 @Entity
+@Table(name = "user_blog")
 @Data
-@Table(name = "blog")
-
 public class Blog {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
+    @Column(nullable = false)
     private String title;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "author_id")
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.DETACH}) // ?
+    @JoinColumn(nullable = false, name = "user_id")
     private User author;
-
-
     private LocalDateTime createdAt;
-
     private LocalDateTime updatedAt;
-
-    @OneToMany(mappedBy = "blog", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<BlogComment> comment;
-
 
     @PrePersist
     public void prePersist() {
@@ -45,4 +36,12 @@ public class Blog {
         updatedAt = LocalDateTime.now();
     }
 
+//    @OneToMany(
+//            fetch = FetchType.EAGER,
+//            cascade = CascadeType.ALL,
+//            mappedBy = "blog"
+//    )
+//    private List<BlogComment> comment;
+
+    //private Double rating;
 }

@@ -1,6 +1,13 @@
-package com.example.springIntro;
+package com.example.springIntro.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.springIntro.exception.IlligaleException;
+import com.example.springIntro.exception.NotFountException;
+import com.example.springIntro.model.dto.BlogDTO;
+import com.example.springIntro.model.entity.Blog;
+import com.example.springIntro.model.entity.User;
+import com.example.springIntro.model.mapper.BlogMapper;
+import com.example.springIntro.repo.BlogRepository;
+import com.example.springIntro.repo.UserRepository;
 import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.List;
@@ -21,13 +28,21 @@ public class BlogService {
     }
 
     // ✅ Create Blog
-    public BlogDTO createBlog(Long id, BlogDTO blogDTO) {
-        System.out.println(blogDTO);
-        Blog blog = blogMapper.toEntity(blogDTO);
-        User bloguser= userRepository.findById(id).orElseThrow(() -> new RuntimeException("Author not found with id: " + id)); // find author from user table
-        blog.setAuthor(bloguser);// set author from user table
-        Blog savedBlog = blogRepository.save(blog);
-        return blogMapper.toDTO(savedBlog);
+    public String  createBlog(BlogDTO blogDTO) throws NotFountException, IlligaleException {
+
+            Optional<User> user = userRepository.findById(blogDTO.getAuthorUserId());
+            if(user.isEmpty()){
+                return null;
+            }
+//            if(!roleService.isCreateBlogAccessAuthority(blogDTO.getAuthorUserId()));
+//            return  "You are not allowed to create a blog";
+
+            Blog blog = blogMapper.toEntity(blogDTO);
+            blog.setAuthor(user.get());
+
+//            BlogCOmment
+            blogRepository.save(blog);
+           return "Blog created successfully";
     }
 
     // ✅ Get All Blogs
@@ -38,11 +53,11 @@ public class BlogService {
                 .collect(Collectors.toList());
     }
 
-//    // ✅ Get Blog By ID
-//    public BlogDTO getBlogById(Long id) {
-//        Optional<Blog> blogOptional = blogRepository.findById(id);
-//        return blogOptional.map(blogMapper::toEntity).orElse(null);
-//    }
+    // ✅ Get Blog By ID
+    public BlogDTO getBlogById(Long id) {
+        Optional<Blog> blogOptional = blogRepository.findById(id);
+        return blogOptional.map(blogMapper::toDTO).orElse(null);
+    }
 
     // ✅ Update Blog
     public BlogDTO updateBlog(Long id, BlogDTO blogDTO) {
@@ -51,6 +66,7 @@ public class BlogService {
             Blog blog = blogOptional.get();
             blog.setTitle(blogDTO.getTitle());
             blog.setContent(blogDTO.getContent());
+            blog.setUpdatedAt(blogDTO.getUpdatedAt());
             Blog updatedBlog = blogRepository.save(blog);
             return blogMapper.toDTO(updatedBlog);
         }
@@ -66,11 +82,13 @@ public class BlogService {
         }
         return false;
     }
+
+
 }
-
-
-
-
-
-
-
+//
+//
+//
+//
+//
+//
+//
