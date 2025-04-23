@@ -23,7 +23,7 @@ public class BlogCommentController {
 //        BlogCommentDTO savedComment = blogCommentService.createComment(commentDTO);
 //        return ResponseEntity.ok(savedComment);
 //    }
-
+//
     // Get all comments
     @GetMapping("api/v1/blog/comment/getAll")
     public ResponseEntity<List<BlogCommentDTO>> getAllComments() {

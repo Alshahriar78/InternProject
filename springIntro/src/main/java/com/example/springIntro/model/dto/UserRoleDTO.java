@@ -11,8 +11,4 @@ public class UserRoleDTO {
     private Long id;
     private String roleName;
     private String description;
-    private boolean canCreateBlog;
-    private boolean canViewBlog;
-    private boolean canEditBlog;
-    private boolean canDeleteBlog;
 }

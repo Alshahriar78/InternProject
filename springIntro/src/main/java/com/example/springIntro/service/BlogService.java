@@ -8,12 +8,17 @@ import com.example.springIntro.model.entity.User;
 import com.example.springIntro.model.mapper.BlogMapper;
 import com.example.springIntro.repo.BlogRepository;
 import com.example.springIntro.repo.UserRepository;
+import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import java.util.Date;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@AllArgsConstructor
 @Service
 public class BlogService {
 
@@ -21,28 +26,33 @@ public class BlogService {
     private final BlogRepository blogRepository;
     private final UserRepository userRepository;
 
-    public BlogService(BlogMapper blogMapper, BlogRepository blogRepository, UserRepository userRepository) {
-        this.blogMapper = blogMapper;
-        this.blogRepository = blogRepository;
-        this.userRepository = userRepository;
-    }
+    @PersistenceContext
+    private EntityManager entityManager;
+
+//    public BlogService(BlogMapper blogMapper, BlogRepository blogRepository, UserRepository userRepository) {
+//        this.blogMapper = blogMapper;
+//        this.blogRepository = blogRepository;
+//        this.userRepository = userRepository;
+//    }
 
     // ✅ Create Blog
-    public String  createBlog(BlogDTO blogDTO) throws NotFountException, IlligaleException {
+    public ResponseEntity<BlogDTO> saveBlog(BlogDTO blogDTO) throws NotFountException, IlligaleException {
 
             Optional<User> user = userRepository.findById(blogDTO.getAuthorUserId());
-            if(user.isEmpty()){
-                return null;
-            }
+        System.out.println("User: "+user);
+//            if(user.isEmpty()){
+//                return null;
+//            }
 //            if(!roleService.isCreateBlogAccessAuthority(blogDTO.getAuthorUserId()));
 //            return  "You are not allowed to create a blog";
 
             Blog blog = blogMapper.toEntity(blogDTO);
             blog.setAuthor(user.get());
+        entityManager.detach(blog);
 
-//            BlogCOmment
-            blogRepository.save(blog);
-           return "Blog created successfully";
+        blogRepository.save(blog);
+
+             return ResponseEntity.ok(blogMapper.toDTO(blog));
     }
 
     // ✅ Get All Blogs
@@ -83,7 +93,14 @@ public class BlogService {
         return false;
     }
 
+    public Blog findUserEntityById(Long id) {
+        Optional<Blog> blogOptional = blogRepository.findById(id);
+        return blogOptional.orElseThrow(() -> new RuntimeException("Blog not found with id: " + id));
+    }
 
+//
+//    public Blog findUserEntityById(Long id) {
+//    }
 }
 //
 //

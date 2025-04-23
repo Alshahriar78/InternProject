@@ -20,8 +20,8 @@ public class User {
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
     private List<Blog> blogPost;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<BlogComment> comments;
+//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+//    private List<BlogComment> comments;
 
     @ManyToMany(mappedBy = "users",fetch = FetchType.EAGER)
     private Set<UserRole> userRole;

@@ -9,25 +9,25 @@ import java.time.LocalDateTime;
 public class BlogDTO {
 
 
-    @JsonProperty(namespace = "blog_title", required = true, defaultValue = "A Title")
+    @JsonProperty(value = "blog_title", required = true, defaultValue = "A Title")
     private String title;
 
-    @JsonProperty(namespace = "blog_content", value = "Content's of the blog.", required = true, defaultValue = "The Contents")
+    @JsonProperty(value = "blog_content", required = true, defaultValue = "The Contents")
     private String content;
 
-    @JsonProperty(namespace = "author_user_id")
+    @JsonProperty(value = "author_user_id")
     private Long authorUserId; // for legally user
 
 
 
     // client theke nibo na eta
-    @JsonProperty(namespace = "id")
+    @JsonProperty(value = "id")
     private Long id;
 
-    @JsonProperty(namespace = "created_at")
+    @JsonProperty(value = "created_at")
     private LocalDateTime createdAt;
 
-    @JsonProperty(namespace = "updated_att")
+    @JsonProperty(value = "updated_att")
     private LocalDateTime updatedAt;
 
 //    @JsonProperty(namespace = "rating")
