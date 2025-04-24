@@ -23,7 +23,7 @@ public class BlogController {
     @PostMapping("/create")
     public ResponseEntity<BlogDTO> createBlog( @RequestBody BlogDTO blogDTO) throws NotFountException, IlligaleException {
              System.out.println(blogDTO);
-        BlogDTO createdBlog = blogService.saveBlog(blogDTO).getBody();
+        BlogDTO createdBlog = blogService.saveBlog(blogDTO);
         return ResponseEntity.ok(createdBlog);
 
     }

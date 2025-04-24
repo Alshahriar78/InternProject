@@ -1,21 +1,23 @@
 package com.example.springIntro.model.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "user_blog")
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @AllArgsConstructor
 @NoArgsConstructor
 public class Blog {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long id;
 
     @Column(nullable = false)
@@ -24,8 +26,8 @@ public class Blog {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL) // ?
-    @JoinColumn(nullable = false, name = "user_id")
+    @ManyToOne(fetch = FetchType.LAZY) // ?
+    @JoinColumn( name = "user_id")
     private User author;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -41,12 +43,12 @@ public class Blog {
     }
 
 
-//    @OneToMany(
-//            fetch = FetchType.EAGER,
-//            cascade = CascadeType.ALL,
-//            mappedBy = "blog"
-//    )
-//    private List<BlogComment> comment;
+    @OneToMany(
+            fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL,
+            mappedBy = "blogEntity"
+    )
+    private List<BlogComment> comment;
 
-    //private Double rating;
+    private Double rating;
 }

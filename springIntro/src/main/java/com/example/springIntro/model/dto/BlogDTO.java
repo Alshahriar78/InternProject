@@ -20,9 +20,7 @@ public class BlogDTO {
 
 
 
-    // client theke nibo na eta
-    @JsonProperty(value = "id")
-    private Long id;
+
 
     @JsonProperty(value = "created_at")
     private LocalDateTime createdAt;

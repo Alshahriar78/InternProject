@@ -7,8 +7,12 @@ import lombok.Data;
 public class BlogCommentDTO {
 
 
-    @JsonProperty("viewer_name")
-    private String viewer;
+    @JsonProperty("commentator_id")
+    private Long commentator;
+
+    @JsonProperty("blog_id")
+    private Long blogId;
+
 
     @JsonProperty("content")
     private String content;

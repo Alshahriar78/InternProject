@@ -5,12 +5,13 @@ import com.example.springIntro.model.entity.BlogComment;
 import org.springframework.stereotype.Component;
 @Component
 public class BlogCommentMapper {
-    public BlogComment map(BlogCommentDTO dto) {
+    public BlogComment toEntity(BlogCommentDTO dto) {
         BlogComment comment = new BlogComment();
         comment.setContent(dto.getContent());
+
         return comment;
     }
-    public BlogCommentDTO map(BlogComment entity) {
+    public BlogCommentDTO toDTO(BlogComment entity) {
         BlogCommentDTO dto = new BlogCommentDTO();
         dto.setContent(entity.getContent());
         return dto;

@@ -26,8 +26,7 @@ public class BlogService {
     private final BlogRepository blogRepository;
     private final UserRepository userRepository;
 
-    @PersistenceContext
-    private EntityManager entityManager;
+
 
 //    public BlogService(BlogMapper blogMapper, BlogRepository blogRepository, UserRepository userRepository) {
 //        this.blogMapper = blogMapper;
@@ -36,23 +35,22 @@ public class BlogService {
 //    }
 
     // ✅ Create Blog
-    public ResponseEntity<BlogDTO> saveBlog(BlogDTO blogDTO) throws NotFountException, IlligaleException {
+    public BlogDTO saveBlog(BlogDTO blogDTO) throws NotFountException, IlligaleException {
 
             Optional<User> user = userRepository.findById(blogDTO.getAuthorUserId());
         System.out.println("User: "+user);
-//            if(user.isEmpty()){
-//                return null;
-//            }
+            if(user.isEmpty()){
+                return null;
+            }
 //            if(!roleService.isCreateBlogAccessAuthority(blogDTO.getAuthorUserId()));
 //            return  "You are not allowed to create a blog";
 
             Blog blog = blogMapper.toEntity(blogDTO);
             blog.setAuthor(user.get());
-        entityManager.detach(blog);
 
         blogRepository.save(blog);
 
-             return ResponseEntity.ok(blogMapper.toDTO(blog));
+             return blogMapper.toDTO(blog);
     }
 
     // ✅ Get All Blogs
