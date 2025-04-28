@@ -4,6 +4,13 @@ This project demonstrates how to implement **Authentication** in a **Spring Boot
 Alongside, we have worked with Entity-DTO-Mapper-Service-Repository patterns for a clean architecture.
 
 ---
+## What is Spring Security?
+Spring security is a module of the spring framwork that work with secuiring the whole application. Becasue of , that No one can use API/Website i unauthorized way.
+
+### Spring Security works with two things
+  * Authentication -> for who are you? are you real user or not?
+  * Authorization -> if you authentication then which api are accessable for you?
+
 
 ## 🔐 Authentication Flow
 
