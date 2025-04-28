@@ -22,7 +22,7 @@ public class UserRole {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    private String role;
+    private String roleName;
     @ManyToMany
     @JoinTable(
             name="user_role",
@@ -31,7 +31,7 @@ public class UserRole {
     )
     @JsonIgnore
     private Set<User> users;
-
+    @JsonProperty("description")
     private String description;
 
 }

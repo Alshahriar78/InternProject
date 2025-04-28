@@ -24,6 +24,7 @@ public class UserService {
         userRepository.save(entity); // user saved to a database;
         return ResponseEntity.ok("User saved successfully"); // Response Send to a client;
     }
+
     public ResponseEntity<UserDTO> seachByID(Long id){
         Optional<User> user = userRepository.findById(id);
         if(user.isPresent()){
@@ -34,15 +35,6 @@ public class UserService {
         }
     }
 
-    public User findUserEntityById(Long id) {
-        return userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
-    }
-
-
-
-
-
     public void deleteById(Long id) {
         if (!userRepository.existsById(id)) {
             throw new RuntimeException("User not found with id: " + id);
@@ -50,26 +42,13 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-//    @PutMapping("/{id}")
-//    public ResponseEntity<UserDTO> updateUser(@PathVariable Long id, @RequestBody UserDTO dto) {
-//        UserDTO updated = userRepository.updateUser(id, dto);
-//        return ResponseEntity.ok(updated);
-//    }
-public UserDTO updateUser(Long id, UserDTO dto) {
-    // 1. Find user or throw error
+    public UserDTO updateUser(Long id, UserDTO dto) {
     User user = userRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("User not found with ID: " + id));
-
-    // 2. Update fields
     user.setName(dto.getName());
     user.setEmail(dto.getEmail());
     user.setPhoneNumber(dto.getPhoneNumber());
-
-    // 3. Save updated user
     User updatedUser = userRepository.save(user);
-
-    // 4. Return mapped DTO
     return userMapper.toDTO(updatedUser);
-}
-
+    }
 }

@@ -18,17 +18,12 @@ import java.util.Optional;
 @Component
 @RequiredArgsConstructor
 public class BlogMapper {
-
-    // UserService ইনজেক্ট করা হয়েছে যাতে ইউজার খোঁজা যায়
     private final UserService userService;
     private  final UserRepository userRepository;
-//    private final BlogService blogService;
 
-    // DTO থেকে Entity তে রূপান্তরের জন্য মেথড
     public Blog toEntity(BlogDTO dto) throws NotFountException, IlligaleException {
         Blog entity = new Blog();
 
-        //entity.setId(dto.getAuthorUserId() != null ? dto.getAuthorUserId() : null);
         entity.setTitle(dto.getTitle());
         entity.setContent(dto.getContent());
 
@@ -42,7 +37,6 @@ public class BlogMapper {
 
     public BlogDTO toDTO(Blog entity) {
         BlogDTO dto = new BlogDTO();
-
 
         dto.setTitle(entity.getTitle());
         dto.setContent(entity.getContent());

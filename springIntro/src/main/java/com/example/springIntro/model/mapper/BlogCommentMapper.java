@@ -9,11 +9,14 @@ public class BlogCommentMapper {
         BlogComment comment = new BlogComment();
         comment.setContent(dto.getContent());
 
+
         return comment;
     }
     public BlogCommentDTO toDTO(BlogComment entity) {
         BlogCommentDTO dto = new BlogCommentDTO();
         dto.setContent(entity.getContent());
+        dto.setBlogId(entity.getBlogEntity().getId());
+        dto.setCommentator(entity.getCommentator().getId());
         return dto;
     }
 }

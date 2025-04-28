@@ -8,17 +8,13 @@ import com.example.springIntro.model.mapper.BlogCommentMapper;
 import com.example.springIntro.repo.BlogCommentRepository;
 import com.example.springIntro.repo.BlogRepository;
 import com.example.springIntro.repo.UserRepository;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
-
-@AllArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class BlogCommentService {
 
     private final BlogCommentRepository blogCommentRepository;
@@ -26,11 +22,6 @@ public class BlogCommentService {
     private final UserRepository userRepository;
     private final BlogRepository blogRepository;
 
-
-
-
-
-    //     Create a new comment
     public BlogCommentDTO createComment(BlogCommentDTO blogcommentDTO  ) {
         BlogComment comment = blogCommentMapper.toEntity(blogcommentDTO);
         User user= userRepository.findById(blogcommentDTO.getCommentator()).orElseThrow();
@@ -38,39 +29,40 @@ public class BlogCommentService {
         Blog blog= blogRepository.findById(blogcommentDTO.getBlogId()).orElseThrow();
         comment.setBlogEntity(blog);
         blogCommentRepository.save(comment);
-
         return blogcommentDTO;
     }
-//
-//    // Get all comments
-//    public List<BlogCommentDTO> getAllComments() {
-//        return blogCommentRepository.findAll()
-//                .stream()
-//                .map(blogCommentMapper::map)
-//                .collect(Collectors.toList());
-//    }
-//
-//    // Get comment by ID
-//    public Optional<BlogCommentDTO> getCommentById(Long id) {
-//        return blogCommentRepository.findById(id)
-//                .map(blogCommentMapper::map);
-//    }
-//
-//    // Update comment
-//    public Optional<BlogCommentDTO> updateComment(Long id, BlogCommentDTO updatedDTO) {
-//        return blogCommentRepository.findById(id).map(existing -> {
-//            existing.setContent(updatedDTO.getContent());
-//            BlogComment updated = blogCommentRepository.save(existing);
-//            return blogCommentMapper.map(updated);
-//        });
-//    }
-//
-//    // Delete comment
-//    public boolean deleteComment(Long id) {
-//        if (blogCommentRepository.existsById(id)) {
-//            blogCommentRepository.deleteById(id);
-//            return true;
-//        }
-//        return false;
-//    }
+
+    public BlogCommentDTO findCommentByID(Long id){
+        BlogComment blogComment = blogCommentRepository.findById(id).orElseThrow();
+        return blogCommentMapper.toDTO(blogComment);
+
+    }
+
+    public void deleteCommentById(Long id) {
+        if (!blogCommentRepository.existsById(id)) {
+            throw new RuntimeException("Comment not found with id: " + id);
+        }
+        blogCommentRepository.deleteById(id);
+    }
+
+    public BlogCommentDTO updateCommentById(Long id, BlogCommentDTO commentDTO) {
+
+        BlogComment existingComment = blogCommentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Comment not found with id: " + id));
+        if (commentDTO.getContent() != null) {
+            existingComment.setContent(commentDTO.getContent());
+        }
+        if (commentDTO.getBlogId() != null) {
+            Blog blog = blogRepository.findById(commentDTO.getBlogId())
+                    .orElseThrow(() -> new RuntimeException("Blog not found with id: " + commentDTO.getBlogId()));
+            existingComment.setBlogEntity(blog);
+        }
+        if (commentDTO.getCommentator() != null) {
+            User user = userRepository.findById(commentDTO.getCommentator())
+                    .orElseThrow(() -> new RuntimeException("User not found with id: " + commentDTO.getCommentator()));
+            existingComment.setCommentator(user);
+        }
+        BlogComment updatedComment = blogCommentRepository.save(existingComment);
+        return blogCommentMapper.toDTO(updatedComment);
+    }
 }

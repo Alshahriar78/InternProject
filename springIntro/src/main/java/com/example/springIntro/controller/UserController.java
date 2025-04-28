@@ -14,10 +14,6 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final UserService userService;
 
-
-
-
-    // For User
     @PostMapping("/save")
     public ResponseEntity<String> saveUser(@RequestBody UserDTO dto) {
         userService.save(dto);
@@ -34,23 +30,12 @@ public class UserController {
         userService.deleteById(id);
         return ResponseEntity.ok("User deleted successfully");
     }
-    @GetMapping("/")
-    private  ResponseEntity<String>  helloWord(){
-        System.out.println("Hello Word");
-        return ResponseEntity.ok("Hello Word");
-    }
 
-    @PutMapping("{id}")
+    @PatchMapping("{id}")
     public ResponseEntity<String> updateUser(
             @PathVariable Long id,
             @RequestBody UserDTO dto) {
         UserDTO updated = userService.updateUser(id, dto);
         return ResponseEntity.ok("Successfully User Updated...");
     }
-
-
-
-
-
-
 }

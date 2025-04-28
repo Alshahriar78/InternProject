@@ -5,11 +5,11 @@ import com.example.springIntro.model.dto.BlogDTO;
 import com.example.springIntro.service.BlogCommentService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("api/v1/blog/comment")
+@RequestMapping("api/v1/blog")
 public class BlogCommentController {
 
     private final BlogCommentService blogCommentService;
@@ -18,32 +18,26 @@ public class BlogCommentController {
         this.blogCommentService = blogCommentService;
     }
 
-    // Create a new comment
     @PostMapping("/postComments")
     public ResponseEntity<BlogCommentDTO> createComment(@RequestBody BlogCommentDTO commentDTO ) {
         BlogCommentDTO savedComment = blogCommentService.createComment(commentDTO);
         return ResponseEntity.ok(savedComment);
     }
 
-//    // Get all comments
-//    @GetMapping("/getAll")
-//    public ResponseEntity<List<BlogCommentDTO>> getAllComments() {
-//        List<BlogCommentDTO> comments = blogCommentService.getAllComments();
-//        return ResponseEntity.ok(comments);
-//    }
-//
-//    // Get comment by ID
-//    @GetMapping("api/v1/blog/comment/get/{id}")
-//    public ResponseEntity<BlogCommentDTO> getCommentById(@PathVariable Long id) {
-//        return blogCommentService.getCommentById(id)
-//                .map(ResponseEntity::ok)
-//                .orElse(ResponseEntity.notFound().build());
-//    }
-//
-//    // Delete comment by ID
-//    @DeleteMapping("api/v1/blog/comment/delete/{id}")
-//    public ResponseEntity<String> deleteComment(@PathVariable Long id) {
-//        blogCommentService.deleteComment(id);
-//        return ResponseEntity.ok("Comment deleted successfully.");
-//    }
+   @GetMapping("/{id}")
+    public BlogCommentDTO getCommentById(@PathVariable Long id) {
+        BlogCommentDTO getComment = blogCommentService.findCommentByID( id);
+        return getComment;
+    }
+
+    @DeleteMapping("/{id}")
+    public Optional<String> deleteComment(@PathVariable Long id) {
+        blogCommentService.deleteCommentById(id);
+        return Optional.of("Comment deleted successfully with ID: " + id);
+    }
+    @PatchMapping("/{id}")
+    public BlogCommentDTO updateComment(@PathVariable Long id, @RequestBody BlogCommentDTO commentDTO) {
+        BlogCommentDTO blogCommentDTO = blogCommentService.updateCommentById(id, commentDTO);
+        return blogCommentDTO;
+    }
 }
