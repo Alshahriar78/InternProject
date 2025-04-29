@@ -7,14 +7,13 @@
 *AuthenticationManager -> is a spring security interface which deals with to check either  user is authenticated or not. if user is authenticated through credentted(username,password) then  pricipal retrun suscess authenticad object  if not then return  AuthenticationException .
 
 
-Concept	                         কাজ কি?
-AuthenticationManager	    Login Validation এর পুরো দায়িত্ব পালন করে
-UserDetailsService	        Database থেকে ইউজারের details load করে
-PasswordEncoder          	Password নিরাপদে encrypt/decrypt করে
-SecurityFilterChain     	কোন URL protect হবে সেটা define করে
-AuthenticationProvider  	Authentication Logic কে customize করে
-Principal
-SecurityFilterChain 
+Concept	                         
+AuthenticationManager	    Login Validation 
+UserDetailsService	        dettails from Database 
+PasswordEncoder          	Password  encrypt/decrypt 
+SecurityFilterChain     	which  URL are  protect  define that
+AuthenticationProvider  	Authentication Logic  customize 
+
 
 ## @EnableWebSecurity 
 Start the spring security authoConfiguration
