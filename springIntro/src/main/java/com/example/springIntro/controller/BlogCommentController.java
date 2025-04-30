@@ -9,9 +9,8 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("api/v1/blog")
+@RequestMapping("api/v1/comments")
 public class BlogCommentController {
-
     private final BlogCommentService blogCommentService;
 
     public BlogCommentController(BlogCommentService blogCommentService) {

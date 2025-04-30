@@ -7,6 +7,7 @@ import com.example.springIntro.repo.UserRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -50,5 +51,9 @@ public class UserService {
     user.setPhoneNumber(dto.getPhoneNumber());
     User updatedUser = userRepository.save(user);
     return userMapper.toDTO(updatedUser);
+    }
+
+    public List<User> findAllUsers() {
+        return userRepository.findAll();
     }
 }

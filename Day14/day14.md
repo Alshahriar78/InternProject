@@ -1,11 +1,17 @@
 ## Core Concepts of Spring Security
-*Authentication — Who are you? Can you prove it?
-*Authorization — After authenticate Can you do this? 
-*Principal -> is a person who is authentication through authentication manager. It,s a Object of that parson
-*Granted Authority
-*Role
-*AuthenticationManager -> is a spring security interface which deals with to check either  user is authenticated or not. if user is authenticated through credentted(username,password) then  pricipal retrun suscess authenticad object  if not then return  AuthenticationException .
+* Authentication — Who are you? Can you prove it?
+* Authorization — After authenticate Can you do this? 
+* Principal -> is a person who is authentication through authentication manager. It,s a Object   of  that parson
+* Granted Authority
+* Role
+## Authentication Filter
 
+
+## AuthenticationManager -> 
+* is a spring security interface which deals with to check either  user is authenticated or not. * if user is authenticated through credentted(username,password) then  pricipal retrun suscess * * authenticad object  if not then return  AuthenticationException .
+
+## Authentication Provider
+* An AuthenticationProvider is a component in Spring Security that performs actual * *             authentication  logic. It receives the credentials (like username & password)      and      determines    whether they are valid.
 
 Concept	                         
 AuthenticationManager	    Login Validation 

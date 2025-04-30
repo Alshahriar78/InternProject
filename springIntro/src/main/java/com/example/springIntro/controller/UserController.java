@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/user")
+@RequestMapping("api/v1/user")
 @RequiredArgsConstructor
 
 public class UserController {
@@ -25,7 +25,7 @@ public class UserController {
         return userService.seachByID(id);
     }
 
-    @DeleteMapping("/api/v1/user/delete/{id}")
+    @DeleteMapping("{id}")
     public ResponseEntity<String> deleteById(@PathVariable("id") Long id) {
         userService.deleteById(id);
         return ResponseEntity.ok("User deleted successfully");
@@ -38,4 +38,6 @@ public class UserController {
         UserDTO updated = userService.updateUser(id, dto);
         return ResponseEntity.ok("Successfully User Updated...");
     }
+
+
 }

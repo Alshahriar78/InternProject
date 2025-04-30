@@ -5,11 +5,12 @@ import com.example.springIntro.exception.NotFountException;
 import com.example.springIntro.model.dto.BlogDTO;
 import com.example.springIntro.service.BlogService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/blogs")
+@RequestMapping("api/v1/blogs")
 public class BlogController {
     private final BlogService blogService;
 
@@ -25,6 +26,7 @@ public class BlogController {
 
     }
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole()")
     public ResponseEntity<BlogDTO> getBlogById(@PathVariable Long id) {
         BlogDTO blogDTO = blogService.getBlogById(id);
         return ResponseEntity.ok(blogDTO);
