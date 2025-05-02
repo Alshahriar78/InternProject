@@ -58,7 +58,8 @@ Container returns it to the client
 *Shutdown
 Calls destroy() method during server stop
 
-
+## What is CSRF? 
+It is a security vulnerabilty where an attacker tricks a logged-in user into unknowingly performing malicious actions on a web application.
 
 
 ## ✅ Topics Covered
