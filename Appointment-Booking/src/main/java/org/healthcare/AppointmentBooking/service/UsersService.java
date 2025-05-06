@@ -12,11 +12,13 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class UsersService {
     private final UsersRepository usersRepository;
+    private final UsersMapper usersMapper;
+
 
 
     public ResponseEntity<String> register(UsersDTO dto){
-        UsersMapper mapper = new UsersMapper();// create Object of mapper ;
-        Users entity = mapper.toEntity(dto);// convert dto to entity;
+        // create Object of mapper ;
+        Users entity = usersMapper.toEntity(dto);// convert dto to entity;
         usersRepository.save(entity); // user saved to a database;
         return ResponseEntity.ok("User saved successfully"); // Response Send to a client;
     }
