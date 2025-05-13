@@ -17,13 +17,15 @@ import java.time.LocalDateTime;
 @RequestMapping("/api/test")
 public class LabTestAppointmentController {
 
+    @Autowired
+    private LabTestAppointmentService labTestAppointmentService;
 
     @PostMapping("/book")
     public ResponseEntity<String> bookTestAppointment(@RequestBody LabTestAppointmentDTO labTestAppointmentDTO,
                                                      Authentication authentication) {
-        Users users = (Users) authentication.getPrincipal();
-        System.out.println("User Details"+users);
-        return ResponseEntity.ok("Test Appointment booked successfully.");
+      String userName=  authentication.getName();
+      labTestAppointmentService.labTestAppointment(labTestAppointmentDTO,userName);
+      return ResponseEntity.ok("Test Appointment booked successfully.");
     }
 }
 

@@ -80,7 +80,7 @@
 <!-- Content -->
 <div class="content">
     <!-- Welcome Section -->
-    <div class="d-flex justify-content-between mb-4">
+    <div class="d-flex">
         <h3>Welcome back, <span th:text="${userDto.fullName}"> </span></h3>
 
         <span th:text="${userDto.mobileNumber}">+</span>
@@ -88,16 +88,16 @@
 
     <!-- Doctor Appointment Section -->
     <h4>Doctor Appointment</h4>
-    <div class="row mb-4">
+    <div class="row ">
         <!-- Doctor Cards -->
-        <div class="col-md-3">
+        <div class="d-flex flex-row justify-content-between">
             <div class="card doctor-card"   th:each="doctor : ${doctor}">
                 <img th:src="@{/image/doctor1.jpg}" alt="Dr. Mahmudul Hasan" class="card-img-top">
                 <div class="card-body text-center">
                     <h5 class="card-title" th:text="${doctor.name}"  ></h5>
-                    <p th:text="${doctor.qualification}"></p>-->
+                    <p th:text="${doctor.qualification}"></p>
                     <p th:text="${doctor.specialization}"></p>
-                    <button class="btn btn-success w-100">Book Appointment</button>
+                    <button class="btn btn-success w-100" th:onclick="">Book Appointment</button>
                 </div>
             </div>
         </div>

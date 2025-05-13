@@ -1,6 +1,7 @@
 package org.healthcare.AppointmentBooking.service;
 
 import org.healthcare.AppointmentBooking.model.dto.LabTestAppointmentDTO;
+import org.healthcare.AppointmentBooking.model.dto.LabTestDTO;
 import org.healthcare.AppointmentBooking.model.entity.LabTestAppointment;
 import org.healthcare.AppointmentBooking.model.entity.Users;
 import org.healthcare.AppointmentBooking.repository.LabTestAppointmentRepository;
@@ -14,10 +15,14 @@ import java.time.LocalDateTime;
 
 @Service
 public class LabTestAppointmentService {
+    @Autowired
+    private LabTestAppointmentRepository labTestAppointmentRepository;
 
 
-    public LabTestAppointment labTestAppointment(LabTestAppointmentDTO labTestAppointmentDTO
-                                                ) {
+    public LabTestAppointment labTestAppointment(LabTestAppointmentDTO labTestAppointmentDTO,
+                                                 String userName) {
+
+
         return null;
      }
 }

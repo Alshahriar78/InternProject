@@ -44,9 +44,10 @@ public class DoctorController {
          return "users/dashboard";
     }
     @GetMapping("/search")
-    public ResponseEntity<List<Doctor>> searchDoctors(@RequestParam String keyword) {
-        List<Doctor> doctors = doctorService.searchDoctors(keyword);
-        return ResponseEntity.ok(doctors);
+    public String searchDoctors(@RequestParam String keyword ,
+                                                      Model model) {
+        model.addAttribute("doctor_seach",doctorService.searchDoctors(keyword));
+        return "users/dashboard";
     }
 
     @PostMapping("/register")
