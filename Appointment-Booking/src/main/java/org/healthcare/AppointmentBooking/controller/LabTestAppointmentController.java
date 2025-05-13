@@ -17,10 +17,6 @@ import java.time.LocalDateTime;
 @RequestMapping("/api/test")
 public class LabTestAppointmentController {
 
-    @Autowired
-    private LabTestAppointmentService labTestAppointmentService;
-    @Autowired
-    private UsersService usersService;
 
     @PostMapping("/book")
     public ResponseEntity<String> bookTestAppointment(@RequestBody LabTestAppointmentDTO labTestAppointmentDTO,

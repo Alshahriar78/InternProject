@@ -15,10 +15,6 @@ import java.time.LocalDateTime;
 @Service
 public class LabTestAppointmentService {
 
-    @Autowired
-    private LabTestAppointmentRepository labTestAppointmentRepository;
-    @Autowired
-    private LabTestAppointmentService labTestAppointmentService;
 
     public LabTestAppointment labTestAppointment(LabTestAppointmentDTO labTestAppointmentDTO
                                                 ) {

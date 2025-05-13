@@ -23,7 +23,7 @@ import java.util.Optional;
 
 import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
-@RestController
+@Controller
 @RequestMapping("/doctor")
 public class DoctorController {
 
@@ -39,8 +39,9 @@ public class DoctorController {
     }
 
     @GetMapping("/getAll")
-    public ResponseEntity<List<Doctor>> getAllDoctors() {
-         return doctorService.getAllDoctors();
+    public String getAllDoctors( Model model) {
+        model.addAttribute("doctor",doctorService.getAllDoctors());
+         return "users/dashboard";
     }
     @GetMapping("/search")
     public ResponseEntity<List<Doctor>> searchDoctors(@RequestParam String keyword) {
