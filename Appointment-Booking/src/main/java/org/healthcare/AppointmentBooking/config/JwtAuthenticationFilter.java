@@ -31,9 +31,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String token = getJwtFromRequest(request);
 
-        if (token != null && jwtUtil.validateToken(token, "userNameFromToken")) {  // এখানে আপনার ইউজারনেম চেক করবেন
+        if (token != null && jwtUtil.validateToken(token, "userNameFromToken")) {
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                    "userNameFromToken", null, null);  // ইউজারনেম সঠিক হলে, আপনি ইউজারের ডিটেইলস নিতে পারেন
+                    "userNameFromToken", null, null);
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }

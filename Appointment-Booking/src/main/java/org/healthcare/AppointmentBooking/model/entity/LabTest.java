@@ -15,6 +15,5 @@ public class LabTest {
     private String labTestDescription;
     private Double labTestPrice;
     private String labTestImageUrl;
-
 }
 

@@ -2,6 +2,7 @@ package org.healthcare.AppointmentBooking.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.healthcare.AppointmentBooking.config.JwtUtil;
 import org.healthcare.AppointmentBooking.model.dto.UsersDTO;
 import org.healthcare.AppointmentBooking.model.entity.Doctor;
 import org.healthcare.AppointmentBooking.model.entity.Users;
@@ -26,6 +27,7 @@ public class UsersController {
     private final UsersService usersService;
     private final UsersRepository usersRepository;
     private final DoctorRepository doctorRepository;
+    private final JwtUtil jwtUtil;
 
     @GetMapping("/register")
         public String showRegistrationForm(Model model) {
@@ -52,6 +54,9 @@ public class UsersController {
     @GetMapping("/dashboard")
     public String getDashboard(Authentication authentication ,
                                Model model) {
+
+       Long ID = jwtUtil.extractUserId();
+
         String username = authentication.getName();
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         List<Doctor> list =doctorRepository.findAll();
