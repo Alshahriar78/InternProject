@@ -1,8 +1,5 @@
 package org.healthcare.AppointmentBooking.config;
 
-
-
-
 import lombok.AllArgsConstructor;
 import org.healthcare.AppointmentBooking.model.entity.Users;
 import org.springframework.security.core.GrantedAuthority;
@@ -18,7 +15,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.emptyList(); // যদি রোল থাকে, এখানে return করতে হবে
+        return Collections.emptyList();
     }
 
     @Override
@@ -30,6 +27,7 @@ public class CustomUserDetails implements UserDetails {
     public String getUsername() {
         return users.getEmail();
     }
+
 
     @Override
     public boolean isAccountNonExpired() { return true; }

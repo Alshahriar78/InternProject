@@ -1,7 +1,5 @@
 package org.healthcare.AppointmentBooking.config;
 
-
-
 import lombok.RequiredArgsConstructor;
 import org.healthcare.AppointmentBooking.model.entity.Users;
 import org.healthcare.AppointmentBooking.repository.UsersRepository;

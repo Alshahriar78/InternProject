@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Appointment Confirmation</title>
+</head>
+<body>
+<h2>Appointment Confirmed!</h2>
+<p>Your appointment has been successfully booked. Here are your details:</p>
+<p>Doctor: <span th:text="${appointment.doctor.name}">Doctor Name</span></p>
+<p>Appointment Date: <span th:text="${appointment.appointmentDate}">Appointment Date</span></p>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Book Doctor Appointment</title>
+</head>
+<body>
+<h2>Book Doctor Appointment</h2>
+<form action="/appointment/book" method="post">
+    <label for="doctor">Select Doctor:</label>
+    <select name="doctor" required>
+        <!-- Populate doctor list dynamically -->
+    </select><br><br>
+
+    <label for="appointmentDate">Appointment Date:</label>
+    <input type="date" name="appointmentDate" required><br><br>
+
+    <label for="notes">Notes:</label>
+    <textarea name="notes"></textarea><br><br>
+
+    <button type="submit">Book Appointment</button>
+</form>
+</body>
+</html>
