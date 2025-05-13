@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -47,134 +47,115 @@
         <h3 class="mb-1">Create an account</h3>
         <p class="text-muted mb-4">Fill in your details</p>
 
-        <form
-                th:action="@{/users/register}"
-                th:object="${userDto}"
-                method="post"
-                class="text-start"
-        >
-            <!-- Full Name -->
-            <div class="mb-3">
-                <label class="form-label">Full Name<span class="text-danger">*</span></label>
-                <input
-                        type="text"
-                        th:field="*{fullName}"
-                        class="form-control"
-                        placeholder="Enter your full name"
-                />
-                <div class="text-danger" th:if="${#fields.hasErrors('fullName')}"
-                     th:errors="*{fullName}">Name Error</div>
-            </div>
+<form th:action="@{/register}" th:object="${userDto}"  method="post"
+      class="text-start">
 
-            <!-- Mobile Number -->
-            <div class="mb-3">
-                <label class="form-label">Mobile Number<span class="text-danger">*</span></label>
-                <input
-                        type="text"
-                        th:field="*{mobileNumber}"
-                        class="form-control"
-                        placeholder="01XXXXXXXXX"
-                />
-                <div class="text-danger" th:if="${#fields.hasErrors('mobileNumber')}"
-                     th:errors="*{mobileNumber}">Mobile Error</div>
-            </div>
+<!--    Full Name-->
+    <div class="mb-3">
+        <label class="form-label">Full Name</label>
+        <input type="text" th:field="*{fullName}"
+               class="form-control"
+               placeholder="Enter your full name"
+        />
+        <p class="text-danger" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"></p>
+    </div>
 
-            <!-- Gender -->
-            <div class="mb-3">
-                <label class="form-label">Gender</label>
-                <select th:field="*{gender}" class="form-select">
-                    <option th:value="null">-- Select --</option>
-                    <option th:value="'Male'">Male</option>
-                    <option th:value="'Female'">Female</option>
-                    <option th:value="'Other'">Other</option>
-                </select>
-            </div>
+<!--    Email-->
+    <div class="mb-3" >
+        <label class="form-label" >Email:</label>
+        <input type="email" class="form-control" th:field="*{email}" />
+        <p class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+    </div>
 
-            <!-- Email -->
-            <div class="mb-3">
-                <label class="form-label">Email</label>
-                <input
-                        type="email"
-                        th:field="*{email}"
-                        class="form-control"
-                        placeholder="you@example.com"
-                />
-                <div class="text-danger" th:if="${#fields.hasErrors('email')}"
-                     th:errors="*{email}">Email Error</div>
-            </div>
+<!--    PhoneNumber:-->
+    <div class="mb-3">
+        <label class="form-label">Phone Number:</label>
+        <input class="form-control"
+               type="tel" id="phone" name="phone" th:field="*{mobileNumber}"
+               pattern="01[3-9][0-9]{8}"
+               title="Enter a valid Bangladeshi phone number (e.g., 017xxxxxxxx)"
+               required placeholder="Enter your phone number"
+               maxlength="11"
+               minlength="11">
+        <p class="text-danger" th:if="${#fields.hasErrors('mobileNumber')}" th:errors="*{mobileNumber}"></p>
 
-            <!-- Date of Birth -->
-            <div class="mb-3">
-                <label class="form-label">Date of Birth</label>
-                <input
-                        type="date"
-                        th:field="*{dateOfBirth}"
-                        class="form-control"
-                />
-            </div>
+    </div>
 
-            <!-- Password -->
-            <div class="mb-3 position-relative">
-                <label class="form-label">Password<span class="text-danger">*</span></label>
-                <div class="input-group">
-                    <input
-                            type="password"
-                            th:field="*{password}"
-                            class="form-control"
-                            placeholder="Enter password"
-                    />
-                    <span class="input-group-text password-toggle"
-                          onclick="togglePassword('password')">
+    <div   class="mb-3">
+        <label class="form-label" >Gender</label>
+
+        <select name="gender" id="Gender"  th:field="*{gender}" class="form-select" >
+                <option th:value="null">Select </option>
+                <option th:value="'Male'">Male</option>
+                <option th:value="'Female'">Female</option>
+                <option th:value="'Other'">Other</option>
+        </select>
+        <p class="text-danger" th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}"></p>
+
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Date of Birth:</label>
+        <input class="form-control" type="date" th:field="*{dateOfBirth}" />
+        <p class="text-danger" th:if="${#fields.hasErrors('dateOfBirth')}" th:errors="*{dateOfBirth}"></p>
+    </div>
+
+    <div class="mb-3  position-relative ">
+        <label class="form-label">Password:</label>
+        <div class="input-group">
+           <input class="form-control"
+                  type="password"
+                  th:field="*{password}"
+                  placeholder="Enter password"
+           />
+            <span class="input-group-text password-toggle"
+                  onclick="togglePassword('password')">
               <i class="bi bi-eye-slash"></i>
             </span>
-                </div>
-                <div class="form-text text-muted">
-                    At least 6 characters with special characters
-                </div>
-                <div class="text-danger" th:if="${#fields.hasErrors('password')}"
-                     th:errors="*{password}">Password Error</div>
-            </div>
+        </div>
+        <div class="form-text text-muted">
+            At least 6 characters with special characters
+        </div>
+        <p class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+    </div>
+<!--    confirm password:-->
+    <div   class="mb-3 position-relative">
+        <label class="form-label">Confirm Password:</label>
+        <div class="input-group">
+                <input type="password"
+                       th:field="*{confirmPassword}"
+                       class="form-control"
+                       placeholder="Confirm password"/>
+                <span class="input-group-text password-toggle"
+                  onclick="togglePassword('confirmPassword')">
+                     <i class="bi bi-eye-slash"></i>
+                </span>
+        </div>
 
-            <!-- Confirm Password -->
-            <div class="mb-3 position-relative">
-                <label class="form-label">Confirm Password<span class="text-danger">*</span></label>
-                <div class="input-group">
-                    <input
-                            type="password"
-                            th:field="*{confirmPassword}"
-                            class="form-control"
-                            placeholder="Confirm password"
-                    />
-                    <span class="input-group-text password-toggle"
-                          onclick="togglePassword('confirmPassword')">
-              <i class="bi bi-eye-slash"></i>
-            </span>
-                </div>
-                <div class="text-danger" th:if="${#fields.hasErrors('confirmPassword')}"
-                     th:errors="*{confirmPassword}">Confirm Error</div>
-            </div>
+        <p class="text-danger" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></p>
+    </div>
 
-            <!-- Terms -->
-            <div class="form-check mb-4">
-                <input class="form-check-input" type="checkbox" id="terms" />
-                <label class="form-check-label" for="terms">
-                    I accept all the <a href="#">Terms & Conditions</a>
-                </label>
-            </div>
 
-            <button type="submit" class="btn btn-primary w-100">Register</button>
+<!--    Term and Conditions:-->
+    <div class="form-check mb-4">
+        <input class="form-check-input" type="checkbox" id="terms" />
+        <label class="form-check-label" for="terms">
+            I accept all the <a href="#">Terms & Conditions</a>
+        </label>
+    </div>
 
-            <div class="footer-text mt-3 text-center">
-                Already have an account? <a th:href="@{/login}">Login</a>
-            </div>
 
-            <div class="step-indicator text-center">
-                <span class="dot"></span>
-                <span class="dot active"></span>
-            </div>
-        </form>
+    <button type="submit" class="btn btn-primary w-100">Register</button>
+
+    <p th:if="${successMessage}" th:text="${successMessage}" style="color: green;"></p>
+</form>
+        <p  class="footer-text">Already have an account? <a href="/login">Login</a></p>
+
+
+
     </div>
 </div>
+
 
 <script>
     function togglePassword(fieldId) {
@@ -189,5 +170,6 @@
         }
     }
 </script>
+
 </body>
 </html>

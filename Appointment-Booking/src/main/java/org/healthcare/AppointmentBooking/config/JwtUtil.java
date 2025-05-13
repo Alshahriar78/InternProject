@@ -44,5 +44,5 @@ public class JwtUtil {
         return (username.equals(extractUsername(token)) && !isTokenExpired(token));
     }
 
-   
+
 }

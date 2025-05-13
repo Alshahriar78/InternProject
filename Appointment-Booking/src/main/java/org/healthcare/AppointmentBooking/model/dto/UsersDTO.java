@@ -1,7 +1,9 @@
 package org.healthcare.AppointmentBooking.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.*;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
@@ -13,6 +15,7 @@ import java.time.LocalDate;
 public class UsersDTO {
 
     @NotBlank(message = "Full name is required")
+    @Size(min = 5, max = 100, message = "Full name must be between 5 and 100 characters")
     private String fullName;
 
     @NotBlank(message = "Mobile number is required")
@@ -22,9 +25,11 @@ public class UsersDTO {
     )
     private String mobileNumber;
 
+    @NotBlank(message = "Gender is required")
     private String gender;
 
-    @Email(message = "Invalid email address")
+    @NotBlank(message = "Email is required")
+    @Email(message = "Please provide a valid email address.")
     private String email;
 
     @NotBlank(message = "Password is required")
@@ -34,5 +39,8 @@ public class UsersDTO {
     @NotBlank(message = "Confirm Password is required")
     private String confirmPassword;
 
+    @JsonFormat(pattern = "dd-MM-yyyy")
+    @Past(message = "Date of birth must be in the past")
+    @NotNull(message = "Date of birth is required")
     private LocalDate dateOfBirth;
 }

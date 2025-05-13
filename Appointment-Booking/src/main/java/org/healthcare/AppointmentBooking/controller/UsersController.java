@@ -39,34 +39,32 @@ public class UsersController {
         @PostMapping("/register")
         public String processRegistration(
                 @Valid @ModelAttribute("userDto") UsersDTO userDto,
-                BindingResult result,
+                BindingResult bindingResult,
                 Model model) {
 
-            if (result.hasErrors()) {
-                return "users/register";
+            if (bindingResult.hasErrors()) {
+
+
+                return "users/register";  // Return to the registration form page
             }
 
+            // Save the user if no validation errors
             usersService.register(userDto);
-            return "redirect:/users/register?success";
+            model.addAttribute("successMessage", "Registration successful!");
+            return "redirect:/login";
         }
+
+
+
 
     // Dashboard endpoint, accessible after login
     @GetMapping("/dashboard")
     public String getDashboard(Authentication authentication ,
                                Model model) {
-
-       Long ID = jwtUtil.extractUserId();
-
         String username = authentication.getName();
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         List<Doctor> list =doctorRepository.findAll();
-        for (int i = 0; i < list.size(); i++) {
-            System.out.println(i + ": " + list.get(i).getName());
-            model.addAttribute("name",list.get(i).getName());
-            System.out.println(i + ": " + list.get(i).getEmail());
-            model.addAttribute("email",list.get(i).getEmail());
-        }
-      model.addAttribute("doctor",list);
+        model.addAttribute("doctor",list);
         UsersDTO dto = usersService.showDashboardByUsername(username);
         model.addAttribute("userDto", dto);
         return "users/dashboard";
