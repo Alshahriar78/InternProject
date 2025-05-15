@@ -6,6 +6,13 @@
 </head>
 <body class="d-flex justify-content-center align-items-center vh-100 bg-light">
 <div class="card p-4" style="width: 350px;">
+    <div class="alert alert-danger" th:if="${param.error}">
+        Invalid username or password.
+    </div>
+    <div class="alert alert-success" th:if="${param.success}">
+        Registration successful.
+    </div>
+
     <div class="text-center mb-3">
         <img src="/images/logo.png" alt="Logo" width="60">
         <h4 class="mt-2">Welcome Back</h4>

@@ -43,4 +43,10 @@ public class Users {
 
     @Column(nullable = false)
     private boolean enabled = true;
+
+    @OneToMany(mappedBy = "user")
+    private List<DoctorAppointment> doctorAppointments;
+
+    @OneToMany(mappedBy = "users")
+    private List<LabTestAppointment> labTestAppointments;
 }

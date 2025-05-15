@@ -51,7 +51,8 @@ public class UsersController {
             // Save the user if no validation errors
             usersService.register(userDto);
             model.addAttribute("successMessage", "Registration successful!");
-            return "redirect:/login";
+            return "redirect:/login?success";
+
         }
 
 

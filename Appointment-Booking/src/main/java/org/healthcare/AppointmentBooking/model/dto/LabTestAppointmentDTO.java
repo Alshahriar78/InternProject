@@ -1,9 +1,11 @@
 package org.healthcare.AppointmentBooking.model.dto;
 
+import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.*;
-import org.healthcare.AppointmentBooking.model.entity.LabTest;
-import org.healthcare.AppointmentBooking.model.entity.Users;
+
 
 import java.time.LocalDateTime;
 
@@ -13,12 +15,26 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class LabTestAppointmentDTO {
-    @NotBlank(message = "Lab Test Name is required")
+    @NotBlank(message = "appointment  Date Test Name is required")
     private LocalDateTime appointmentDate;
-    private String note;
-    private LabTest labtest;
+    private String status ="Confirmed";
+    @NotNull(message = "Lab Test Id is required")
+    @Digits(integer = 10, fraction = 0, message = "Lab Test Id must be an integer")
+    @Positive(message = "Lab Test Id must be positive")
+    private Long labTest_id;
+    @NotNull(message = "Lab Id is required")
+    @Digits(integer = 10, fraction = 0, message = "Lab Id must be an integer")
+    @Positive(message = "Lab Id must be positive")
+    private Long lab_id;
+    @Digits(integer = 10, fraction = 0, message = "Lab Id must be an integer")
+    @Positive(message = "Lab Id must be positive")
+    @NotBlank(message = "Doctor Id is required")
     private Long doctor_id;
-    private Users users;
+    @NotBlank(message = "User Id is required")
+    @Digits(integer = 10, fraction = 0, message = "Lab Id must be an integer")
+    @Positive(message = "Lab Id must be positive")
+    private Long users_id;
+
 }
 
 

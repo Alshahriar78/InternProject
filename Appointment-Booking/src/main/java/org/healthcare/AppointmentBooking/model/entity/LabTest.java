@@ -3,6 +3,9 @@ package org.healthcare.AppointmentBooking.model.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Data
 @Entity
 @Table(name = "lab_test")
@@ -15,5 +18,16 @@ public class LabTest {
     private String labTestDescription;
     private Double labTestPrice;
     private String labTestImageUrl;
+
+    @ManyToMany(mappedBy = "labTest")
+    private Set<Lab> labs = new HashSet<>();
+
+    @ManyToOne
+    @JoinColumn(name = "users_id")
+    private Users users;
+
+    @OneToMany(mappedBy = "labTest")
+    private Set<LabTestAppointment> labTestAppointments = new HashSet<>();
+
 }
 

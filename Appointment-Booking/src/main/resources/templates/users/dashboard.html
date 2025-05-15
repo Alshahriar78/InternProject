@@ -71,7 +71,7 @@
     <h4>ALPHAHEALTH</h4>
     <div class="mb-4">
         <a href="DoctorAppointment.html">Doctor Appointment</a>
-        <a href="#">Lab Test Appointment</a>
+        <a href="/api/test/appointments">Lab Test Appointment</a>
         <a href="#">Notifications</a>
         <a href="#">History</a>
     </div>
@@ -91,8 +91,8 @@
     <div class="row ">
         <!-- Doctor Cards -->
         <div class="d-flex flex-row justify-content-between">
-            <div class="card doctor-card"   th:each="doctor : ${doctor}">
-                <img th:src="@{/image/doctor1.jpg}" alt="Dr. Mahmudul Hasan" class="card-img-top">
+            <div class="card doctor-card"  style="width: 18rem;"  th:each="doctor : ${doctor}">
+                <img th:src="@{/images/{filename}(filename=${doctor.image})}" th:alt="${doctor.name}" style="width:fit-content" class="card-img-top">
                 <div class="card-body text-center">
                     <h5 class="card-title" th:text="${doctor.name}"  ></h5>
                     <p th:text="${doctor.qualification}"></p>

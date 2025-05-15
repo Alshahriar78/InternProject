@@ -20,11 +20,24 @@ public class LabTestAppointment {
     @Column(nullable = false)
     private LocalDateTime appointmentDate;
 
+    private String status;
+
     @ManyToOne
     @JoinColumn(name = "lab_id")
-    private LabTest labtest;
+    private Lab lab;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private Users users;
+
+    @ManyToOne
+    @JoinColumn(name = "lab_test_id")
+    private LabTest labTest;
+
+    @Column(nullable = false)
+    private String note;
+
+    @ManyToOne
+    @JoinColumn(name = "doctor_id")
+    private Doctor doctor;
 }

@@ -25,18 +25,12 @@ import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @Controller
 @RequestMapping("/doctor")
+@RequiredArgsConstructor
 public class DoctorController {
 
-
+    @Autowired
     private final DoctorService doctorService;
-    @Autowired
-    UsersRepository usersRepository;
-    @Autowired
-    UsersMapper usersMapper;
-    @Autowired
-    public DoctorController(DoctorService doctorService) {
-        this.doctorService = doctorService;
-    }
+
 
     @GetMapping("/getAll")
     public String getAllDoctors( Model model) {
@@ -55,17 +49,5 @@ public class DoctorController {
         System.out.println("Doctor Details"+doctorDTO);
         return doctorService.saveDoctor(doctorDTO);// Redirect to doctor list or profile page
     }
-    @GetMapping("/hello")
-    public String sayHello(Authentication authentication) {
-        String username = authentication.getName();
-        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-        Optional<Users> users = usersRepository.findByEmail(username);
-        System.out.println("Patient: "+usersMapper.toDTO(users.orElseThrow()));
-        System.out.println(userDetails.getPassword());
-        System.out.println("User Details: "+userDetails.getUsername());
-        System.out.println("User Authorities: "+userDetails.getAuthorities());
-        return "Hello guys";
-    }
-
 }
 

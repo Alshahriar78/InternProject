@@ -27,7 +27,7 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers(HttpMethod.GET, "api/v1/blogs/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "api/v1/blogs/**","/swagger-ui/index.html").permitAll()
                         .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
