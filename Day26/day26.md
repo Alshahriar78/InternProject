@@ -3,11 +3,11 @@
 
 
 
-Session Management
+# Session Management
 
 Session management is how a web server remembers who you are and what you've done as you move between pages or make requests. HTTP itself is stateless, so we need a way to track a "session" of interactions.
 
-Why We Need Session Management
+# Why We Need Session Management
 
 Authentication: Keep you logged in after you enter your username and password.
 
