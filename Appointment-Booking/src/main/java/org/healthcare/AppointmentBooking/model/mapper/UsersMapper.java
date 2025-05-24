@@ -5,8 +5,6 @@ import org.healthcare.AppointmentBooking.model.entity.Users;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
-
 @Component
 public class UsersMapper {
 

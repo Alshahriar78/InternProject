@@ -39,13 +39,14 @@ public class Doctor {
 
     @ManyToMany
     @JoinTable(
-            name = "doctor_patient",
+            name = "doctor_user",
             joinColumns = @JoinColumn(name = "doctor_id"),
-            inverseJoinColumns = @JoinColumn(name = "patient_id")
+            inverseJoinColumns = @JoinColumn(name = "user_id")
     )
     private Set<Users> users = new HashSet<>();
 
-//    @OneToMany(mappedBy = "doctor")
-//    private Set<DoctorAppointment> appointments = new HashSet<>();
+    @OneToMany()
+    @JoinColumn(name = "doctor_id")
+    private Set<DoctorAppointment> appointments = new HashSet<>();
 
 }

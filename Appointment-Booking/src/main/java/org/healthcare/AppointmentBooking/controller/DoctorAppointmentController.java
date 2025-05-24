@@ -1,26 +1,45 @@
 package org.healthcare.AppointmentBooking.controller;
 
 
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.healthcare.AppointmentBooking.model.dto.DoctorAppointmentDTO;
 import org.healthcare.AppointmentBooking.model.entity.DoctorAppointment;
 import org.healthcare.AppointmentBooking.service.DoctorAppointmentService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
+
+@RestController
+@RequiredArgsConstructor
 @RequestMapping("/appointment")
 public class DoctorAppointmentController {
 
-    @Autowired
-    private DoctorAppointmentService doctorAppointmentService;
+
+    private final DoctorAppointmentService doctorAppointmentService;
+
+    @GetMapping("/book")
+    public String showAppointmentForm(Model model) {
+        return "users/appointment_form";
+    }
 
     @PostMapping("/book")
-    public String bookDoctorAppointment(@ModelAttribute DoctorAppointment doctorAppointment,
-                                        Authentication authentication) {
-         String userName = authentication.getName();
-        doctorAppointmentService.bookDoctorAppointment(doctorAppointment, userName);
-        return "redirect:/appointment/confirmation";  // Redirect to confirmation page
+    public String processAppointment(
+            @Valid @ModelAttribute("doctorAppointmentDTO") DoctorAppointmentDTO doctorAppointmentDTO,
+            BindingResult bindingResult,
+            Model model) {
+        if (bindingResult.hasErrors()) {
+            return "users/confirmation";
+        }
+        doctorAppointmentService.bookAppointment(doctorAppointmentDTO);
+        model.addAttribute("successMessage", "Doctor Appointment successful!");
+        return "redirect:/dashboard?success";
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public DoctorAppointment deleteAppointment(@PathVariable Long id) {
+       return doctorAppointmentService.deleteAppointmentByID(id);
     }
 }
 

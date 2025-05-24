@@ -1,6 +1,7 @@
 package org.healthcare.AppointmentBooking.controller;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.healthcare.AppointmentBooking.model.dto.LabTestAppointmentDTO;
 import org.healthcare.AppointmentBooking.service.LabTestAppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +13,11 @@ import org.springframework.http.ResponseEntity;
 
 
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/api/test")
 public class LabTestAppointmentController {
 
-    @Autowired
-    private LabTestAppointmentService labTestAppointmentService;
+    private final LabTestAppointmentService labTestAppointmentService;
 
     @GetMapping("/appointments")
     public String   ShowBookTestAppointment(Model model) {

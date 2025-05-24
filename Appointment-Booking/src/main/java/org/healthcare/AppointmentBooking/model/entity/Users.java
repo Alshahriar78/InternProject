@@ -4,7 +4,10 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @Entity
 @Getter
@@ -44,9 +47,19 @@ public class Users {
     @Column(nullable = false)
     private boolean enabled = true;
 
-    @OneToMany(mappedBy = "user")
-    private List<DoctorAppointment> doctorAppointments;
+    @OneToMany()
+    private List<DoctorAppointment> doctorAppointments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "users")
+    @OneToMany()
     private List<LabTestAppointment> labTestAppointments;
+
+
+    @Override
+    public String toString() {
+        return "UsersDTO{" +
+                "id=" + id +
+                ", name='" + fullName + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
 }

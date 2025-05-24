@@ -11,6 +11,8 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class LabTestDTO {
+    @NotNull(message = "Lab Id is required")
+    private Long lab_id;
     @NotBlank(message = "Lab Test Name is required")
     private String labTestName;
     @NotBlank(message = "Lab Test Description is required")

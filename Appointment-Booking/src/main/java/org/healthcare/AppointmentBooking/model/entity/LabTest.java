@@ -22,11 +22,8 @@ public class LabTest {
     @ManyToMany(mappedBy = "labTest")
     private Set<Lab> labs = new HashSet<>();
 
-    @ManyToOne
-    @JoinColumn(name = "users_id")
-    private Users users;
 
-    @OneToMany(mappedBy = "labTest")
+    @OneToMany()
     private Set<LabTestAppointment> labTestAppointments = new HashSet<>();
 
 }

@@ -1,13 +1,21 @@
 package org.healthcare.AppointmentBooking.model.dto;
 
-import lombok.Data;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class DoctorAppointmentDTO {
-    private LocalDateTime date;
+
+    private String appointmentDate;
+    private String appointmentTime;
     private String note;
     private Long doctor_id;
     private Long patient_id;
+
+
 }

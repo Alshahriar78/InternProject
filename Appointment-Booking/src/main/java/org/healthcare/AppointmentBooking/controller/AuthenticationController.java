@@ -23,7 +23,6 @@ public class AuthenticationController {
     public String login(@RequestParam String username, @RequestParam String password) {
         // check username and password
         if ("validUsername".equals(username) && "validPassword".equals(password)) {
-
             Map<String, Object> response = new HashMap<>();
             response.put("message", "Login successful");
             response.put("token", jwtUtil.generateToken(username));
@@ -32,15 +31,13 @@ public class AuthenticationController {
         return "redirect:/login?error";
     }
 
-
-
     @GetMapping("/login")
     public String loginPage() {
-        return "users/login"; // login.html (Thymeleaf view)
+        return "users/login"; //
     }
 
     @GetMapping("/logout-success")
     public String logoutSuccess() {
-        return "users/logout"; // Optional page
+        return "users/logout";
     }
 }

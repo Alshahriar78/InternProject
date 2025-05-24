@@ -7,6 +7,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -43,4 +45,7 @@ public class UsersDTO {
     @Past(message = "Date of birth must be in the past")
     @NotNull(message = "Date of birth is required")
     private LocalDate dateOfBirth;
+
+
+
 }

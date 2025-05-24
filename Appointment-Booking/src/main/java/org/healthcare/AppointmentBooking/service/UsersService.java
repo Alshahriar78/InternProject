@@ -12,6 +12,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class UsersService {
@@ -20,39 +22,42 @@ public class UsersService {
     private final PasswordEncoder passwordEncoder;
 
 
-
     public ResponseEntity<String> register(UsersDTO dto){
-        // create Object of mapper ;
-        Users entity = usersMapper.toEntity(dto);// convert dto to entity;
-        usersRepository.save(entity); // user saved to a database;
+        Users entity = usersMapper.toEntity(dto);
+        usersRepository.save(entity);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth.getName();
         return ResponseEntity.ok("User saved successfully"); // Response Send to a client;
     }
+
     public UsersDTO showDashboardByUsername(String username) {
         Users user = usersRepository.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
         return usersMapper.toDTO(user);
     }
 
-
-    public Users updateUserProfile(Long id, UsersDTO usersDTO) {
-        Users users = usersRepository.findById(id).orElseThrow();
+    public Users updateUserProfile(UsersDTO usersDTO) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUserEmail = authentication.getName();
+        Users users = usersRepository.findByEmail(currentUserEmail)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
         users.setFullName(usersDTO.getFullName());
         users.setMobileNumber(usersDTO.getMobileNumber());
         users.setEmail(usersDTO.getEmail());
         users.setGender(usersDTO.getGender());
         users.setDateOfBirth(usersDTO.getDateOfBirth());
-        // Encrypt password before saving
         if (usersDTO.getPassword() != null && !usersDTO.getPassword().isEmpty()) {
             users.setPassword(passwordEncoder.encode(usersDTO.getPassword()));
         }
         return usersRepository.save(users);
     }
 
-
-    public Users getUserByUsername(String usersName) {
-        return usersRepository.findByFullName(usersName)
+    public Users getUserByEmail(String email) {
+        return usersRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    }
+
+    public List<Users> getAllUsers() {
+        return usersRepository.findAll();
     }
 }

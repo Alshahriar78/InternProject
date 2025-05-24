@@ -23,14 +23,15 @@ public class Lab {
     private String address;
     private double rating;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-            name = "lab_test",
-            joinColumns = @JoinColumn(name = "labs")
+            name = "Labs_labTest",
+            joinColumns = @JoinColumn(name = "lab_id"),
+            inverseJoinColumns = @JoinColumn(name = "labtest_id")
     )
     private Set<LabTest> labTest = new HashSet<>();
 
-    @OneToMany(mappedBy = "lab")
+    @OneToMany()
     private Set<LabTestAppointment> labTestAppointments = new HashSet<>();
 
 

@@ -5,12 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Doctor Appointment</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <style>
         /* Custom Styles */
         body {
             display: flex;
             min-height: 100vh;
             background-color: #f8f9fa;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            padding: 0;
+            margin: 0;
+            overflow-x: hidden;
         }
         .sidebar {
             background-color: #343a40;
@@ -32,8 +37,8 @@
             padding: 20px;
         }
         .doctor-card img {
-            width: 80px;
-            height: 80px;
+            width: 100px;
+            height: 100px;
             border-radius: 50%;
         }
         .doctor-card {
@@ -74,69 +79,119 @@
         <a href="/api/test/appointments">Lab Test Appointment</a>
         <a href="#">Notifications</a>
         <a href="#">History</a>
+        <a href="/logout" class="mt-3 text-danger"><i class="bi bi-box-arrow-right me-2"></i>Logout</a>
     </div>
+
 </div>
 
 <!-- Content -->
 <div class="content">
-    <!-- Welcome Section -->
+    <!-- Welcome, Section -->
     <div class="d-flex">
         <h3>Welcome back, <span th:text="${userDto.fullName}"> </span></h3>
-
-        <span th:text="${userDto.mobileNumber}">+</span>
     </div>
+    <div class="alert alert-success " th:if="${param.success}">
+        Your appointment has been booked successfully!
+    </div>
+<!--Search Bar-->
+    <form class="d-flex w-25" th:action="@{/dashboard}" method="get">
+        <input class="form-control me-2" type="search" name="keyword" th:value="${keyword}" placeholder="Search doctor by name" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+    </form>
 
     <!-- Doctor Appointment Section -->
     <h4>Doctor Appointment</h4>
-    <div class="row ">
+
         <!-- Doctor Cards -->
-        <div class="d-flex flex-row justify-content-between">
-            <div class="card doctor-card"  style="width: 18rem;"  th:each="doctor : ${doctor}">
-                <img th:src="@{/images/{filename}(filename=${doctor.image})}" th:alt="${doctor.name}" style="width:fit-content" class="card-img-top">
+    <div class="d-flex flex-row justify-content-between">
+            <div class="card doctor-card" style=" width: 18rem;"  th:each="doctor : ${doctor}">
+
+                <img th:src="@{/images/{filename}(filename=${doctor.image})}" th:alt="${doctor.name}" style="width:fit-content" class="card-img-top rounded mx-auto d-block ">
                 <div class="card-body text-center">
                     <h5 class="card-title" th:text="${doctor.name}"  ></h5>
                     <p th:text="${doctor.qualification}"></p>
                     <p th:text="${doctor.specialization}"></p>
-                    <button class="btn btn-success w-100" th:onclick="">Book Appointment</button>
+
+                    <div class="container mt-5">
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#appointmentModal">
+                            Book Appointment
+                        </button>
+                    </div>
+
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="appointmentModal" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <form th:action="@{/appointment/book}" method="post" th:object="${doctorAppointmentDTO}">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Book Appointment</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                    </div>
+                                    <div class="modal-body">
+
+                                        <div class="mb-3">
+                                            <label>Patient Name</label>
+                                            <input type="number" class="form-control" th:field="*{patient_id}" required />
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label>Doctor Name</label>
+                                            <input type="number" class="form-control" th:field="*{doctor_id}" required />
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label>Appointment Date</label>
+                                            <input type="date" class="form-control" th:field="*{appointmentDate}" required />
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label>Appointment Time</label>
+                                            <input type="time" class="form-control" th:field="*{appointmentTime}" required />
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label>Appointment Note</label>
+                                            <input type="text" class="form-control" th:field="*{note}" required />
+                                        </div>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-success">Save</button>
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
                 </div>
             </div>
         </div>
 
-    </div>
+
+
 
     <!-- Appointment History Section -->
     <h4 class="mt-5">Appointment History</h4>
     <table class="table table-bordered history-table">
         <thead>
         <tr>
-            <th>Appointment ID $</th>
-            <th>Order Date</th>
+            <th>Appointment ID</th>
             <th>Appointment Date</th>
             <th>Status</th>
             <th>Doctor</th>
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <td>#0306865</td>
-            <td>Jan 6, 2025</td>
-            <td>Jan 6, 2025</td>
-            <td><span class="badge bg-success">Confirmed</span></td>
-            <td> </td>
-        </tr>
-        <tr>
-            <td>#2630605</td>
-            <td>Jan 6, 2025</td>
-            <td>Jan 6, 2025</td>
-            <td><span class="badge bg-info">Completed</span></td>
-            <td>Dr. Farzana Karim</td>
-        </tr>
-        <tr>
-            <td>#193064</td>
-            <td>Jan 6, 2025</td>
-            <td>Jan 6, 2025</td>
-            <td><span class="badge bg-primary">Confirmed</span></td>
-            <td>Dr. Mahmudul Hasan</td>
+        <tr th:each="listAppointment : ${listAppointment}">
+            <td th:text="${listAppointment.id}"></td>
+            <td th:text="${listAppointment.appointmentDate}">Jan 6, 2025</td>
+            <td><span class="badge bg-success" th:text="${listAppointment.status}"></span></td>
+            <td th:text="${listAppointment.doctor.name}"></td>
         </tr>
         </tbody>
     </table>
@@ -150,14 +205,10 @@
             <li class="page-item"><a class="page-link" href="#">Next</a></li>
         </ul>
     </div>
+
+
 </div>
 
-<!-- Profile Section -->
-<div class="profile-card">
-    <img src="/images/logo.png" alt="Profile Picture" class="rounded-circle" width="50">
-    <h6  th:text="${userDto.fullName}"></h6>
-    <span th:text="${userDto.mobileNumber}"></span>
-</div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

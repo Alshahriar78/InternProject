@@ -1,5 +1,6 @@
 package org.healthcare.AppointmentBooking.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.healthcare.AppointmentBooking.model.dto.LabTestDTO;
 import org.healthcare.AppointmentBooking.model.entity.LabTest;
 import org.healthcare.AppointmentBooking.service.LabTestService;
@@ -10,15 +11,17 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/lab-tests")
+@RequiredArgsConstructor
+@RequestMapping("/lab-test")
 public class LabTestController {
 
-    @Autowired
-    private LabTestService labTestService;
+
+    private final LabTestService labTestService;
 
     @PostMapping("/create")
-    public ResponseEntity<LabTestDTO> createLabTest(@RequestBody LabTestDTO labTestDTO) {
-        return ResponseEntity.ok(labTestService.createLabTest(labTestDTO));
+    public String  createLabTest(@RequestBody LabTestDTO labTestDTO) {
+         labTestService.createLabTest(labTestDTO);
+         return "Lab Test created successfully  By Admin";
     }
 
     @GetMapping(value = "/all")
