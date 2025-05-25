@@ -16,3 +16,12 @@ In this project, each class is designed to do **only one thing** and do it well.
 
 ## 🧱 Project Structure with SRP
 
+
+
+## 🧪 Future Enhancements (SOLID Roadmap)
+
+- ✅ SRP (Single Responsibility Principle) – Implemented
+- 🔜 OCP (Open/Closed Principle) – In progress
+- 🔜 LSP (Liskov Substitution Principle)
+- 🔜 ISP (Interface Segregation Principle)
+- 🔜 DIP (Dependency Inversion Principle)
