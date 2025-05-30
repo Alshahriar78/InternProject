@@ -1,4 +1,4 @@
-package com.example.prescription_generation.model.entity;
+package com.example.prescription_generation.model.entity.Muser;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "doctors_table")
-public class Doctor implements MUser{
+public class Doctor implements MUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

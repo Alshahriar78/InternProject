@@ -1,4 +1,4 @@
-package com.example.prescription_generation.model.entity;
+package com.example.prescription_generation.model.entity.Muser;
 
 public interface MUser {
 

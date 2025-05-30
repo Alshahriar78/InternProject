@@ -1,4 +1,4 @@
-package com.example.prescription_generation.model.entity;
+package com.example.prescription_generation.model.entity.Muser;
 
 
 import jakarta.persistence.*;
