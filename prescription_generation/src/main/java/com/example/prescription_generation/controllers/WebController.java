@@ -93,4 +93,11 @@ public class WebController {
         model.addAttribute("username", auth.getName());
         return "dashboard";
     }
+
+    @GetMapping("/prescribtion/create")
+    public String profile(Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        model.addAttribute("username", auth.getName());
+        return "Prescription";
+    }
 }

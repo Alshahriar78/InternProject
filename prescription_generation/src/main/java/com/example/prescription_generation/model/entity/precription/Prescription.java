@@ -20,16 +20,15 @@ public class Prescription {
     @GeneratedValue( strategy = GenerationType.AUTO)
     private Long id;
     private LocalDateTime prescriptionDate;
-    private String patientName;
-    private int age;
-    private String gender;
     private String Diagonosis;
     private String Medicines;
     private LocalDate nextVisitDate;
 
     @ManyToOne
+    @JoinColumn(name = "doctor_id")
     private Doctor doctor;
 
-//    @ManyToOne
-//    private Patient patient;
+    @ManyToOne
+    @JoinColumn(name = "patient_id")
+    private Patient patient;
 }

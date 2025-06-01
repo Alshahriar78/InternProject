@@ -1,6 +1,8 @@
 package com.example.prescription_generation.model.dto;
 
 
+import com.example.prescription_generation.model.entity.Muser.Doctor;
+import com.example.prescription_generation.model.entity.Muser.Patient;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -20,18 +22,20 @@ public class PrescriptionDTO {
     @Past(message = "Date  must be in the after Today's")
     @NotBlank(message = "appointment  Date Test Name is required")
     private LocalDateTime prescriptionDate;
-    @NotBlank(message = "patient name is required")
-    @Size(min = 5, max = 30, message = "Full name must be between 5 and 30 characters")
-    private String patientName;
-    private int age;
-    @NotBlank(message = "Gender is required")
-    private String gender;
+//    @NotBlank(message = "patient name is required")
+//    @Size(min = 5, max = 30, message = "Full name must be between 5 and 30 characters")
+//    private String patientName;
+//    private int age;
+//    @NotBlank(message = "Gender is required")
+//    private String gender;
     @NotBlank(message = "Diagnosis is required")
     private String Diagonosis;
     @NotBlank(message = "Medicines is required")
     private String Medicines;
-//    @NotBlank(message = "Doctor name is required")
-    private String doctorName;
+    @NotBlank(message = "Doctor name is required")
+    private Long doctor_id;
+    @NotBlank(message = "Patient name is required")
+    private Long patient_id;
 
     @JsonFormat(pattern = "dd-MM-yyyy")
     @Past(message = "Date  must be in the after Today's")

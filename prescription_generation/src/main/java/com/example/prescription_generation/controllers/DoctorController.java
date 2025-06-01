@@ -2,27 +2,42 @@ package com.example.prescription_generation.controllers;
 
 
 
+
 import com.example.prescription_generation.model.dto.DoctorDTO;
-import com.example.prescription_generation.service.DoctorCreationServiceImpl;
+import com.example.prescription_generation.service.DoctorService;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/doctors")
+@RequestMapping("/API/V1/doctors")
 public class DoctorController {
 
-    private DoctorCreationServiceImpl doctorCreationService;
 
-    public DoctorController(DoctorCreationServiceImpl doctorCreationService) {
-        this.doctorCreationService = doctorCreationService;
+    private final DoctorService doctorService;
+
+    public DoctorController(DoctorService doctorService) {
+        this.doctorService = doctorService;
     }
 
-    @PostMapping("/register")
-    public String registerDoctor(@RequestBody DoctorDTO doctorDTO) {
-        doctorCreationService.registerDoctor(doctorDTO);
-        return "Doctor registered successfully";
+    @GetMapping("/{id}")
+    public DoctorDTO getDoctorById(Long id){
+        return doctorService.getDoctorById(id);
+    }
+
+    @GetMapping("/all")
+    public Iterable<DoctorDTO> getAllDoctors(){
+        return doctorService.getAllDoctors();
+    }
+
+    @PatchMapping("/update/{id}")
+    public DoctorDTO updateDoctor(@PathVariable Long id, @RequestBody DoctorDTO doctorDTO){
+        return doctorService.updateDoctor(id, doctorDTO);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public void deleteDoctor(@PathVariable Long id){
+        doctorService.deleteDoctor(id);
     }
 
 }

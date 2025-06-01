@@ -26,8 +26,9 @@ public class Doctor implements MUser {
 
     @Getter
     @Setter
-    @OneToMany(mappedBy = "doctor")
-    private List<Prescription> prescription;
+    @OneToMany(mappedBy = "doctor",
+            cascade = CascadeType.ALL)
+    private List<Prescription> prescriptions;
 
     private boolean enabled;
 

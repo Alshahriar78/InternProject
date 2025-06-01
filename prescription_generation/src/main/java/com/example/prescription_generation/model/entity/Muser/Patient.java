@@ -33,10 +33,11 @@ public class Patient implements MUser {
     @Getter
     @Setter
     private String address;
-//    @Getter
-//    @Setter
-//   @OneToMany(mappedBy="patient")
-//   private List<Prescription> prescription;
+    @Getter
+    @Setter
+    @OneToMany(mappedBy = "patient",
+           cascade = CascadeType.ALL)
+    private List<Prescription> prescriptions;
 
 
     @Override

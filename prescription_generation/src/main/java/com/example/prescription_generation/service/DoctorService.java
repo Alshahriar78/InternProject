@@ -6,8 +6,11 @@ import com.example.prescription_generation.model.entity.Muser.Doctor;
 import java.util.List;
 import java.util.Optional;
 
-public interface DoctorRegisterService {
+public interface DoctorService {
 
-    Doctor registerDoctor(DoctorDTO doctorDTO);
+    DoctorDTO getDoctorById(Long id);
+    List<DoctorDTO> getAllDoctors();
+    DoctorDTO updateDoctor(Long id, DoctorDTO dto);
+    void deleteDoctor(Long id);
 
 }
