@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Register - Prescription Generation System</title>
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>  
+  <link rel="stylesheet" th:href="@{/style.css}">
+  <style>
+    .alert {
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 5px;
+    }
+    .alert-danger {
+      background-color: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+    .alert-success {
+      background-color: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+    .user-type {
+      display: flex;
+      justify-content: space-around;
+      margin: 20px 0;
+    }
+    .user-type label {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      color: #fff;
+    }
+    .user-type input {
+      margin-right: 5px;
+    }
+    .conditional-fields {
+      margin-top: 20px;
+    }
+    .conditional-fields.hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+<div class="wrapper">
+    <form th:action="@{/create}" method="post">
+        <h1>Register</h1>
+
+
+        <div th:if="${param.error}" class="alert alert-danger">
+            <span th:text="${param.error}">Error message</span>
+        </div>
+
+
+        <div th:if="${param.success}" class="alert alert-success">
+            Registration successful! You can now <a th:href="@{/login}">login</a>.
+        </div>
+
+
+        <div class="input-box">
+            <input type="text" name="name" placeholder="Full Name" required>
+            <i class='bx bxs-user'></i>
+        </div>
+        <div class="input-box">
+            <input type="text" name="username" placeholder="Username" required>
+            <i class='bx bxs-user'></i>
+        </div>
+        <div class="input-box">
+            <input type="email" name="email" placeholder="Email" required>
+            <i class='bx bxs-envelope'></i>
+        </div>
+        <div class="input-box">
+            <input type="tel" name="phoneNumber" placeholder="Phone Number" required>
+            <i class='bx bxs-phone'></i>
+        </div>
+        <div class="input-box">
+            <input type="password" name="password" placeholder="Password" required>
+            <i class='bx bxs-lock-alt'></i>
+        </div>
+
+
+        <div class="user-type">
+            <label>
+                <input type="radio" name="userType" value="doctor" checked onclick="toggleFields()"> Doctor
+            </label>
+            <label>
+                <input type="radio" name="userType" value="patient" onclick="toggleFields()"> Patient
+            </label>
+        </div>
+
+
+        <div id="doctorFields" class="conditional-fields">
+            <div class="input-box">
+                <input type="text" name="specialist" placeholder="Specialization">
+                <i class='bx bxs-certification'></i>
+            </div>
+        </div>
+
+
+        <div id="patientFields" class="conditional-fields hidden">
+            <div class="input-box">
+                <input type="number" name="age" placeholder="Age">
+                <i class='bx bxs-calendar'></i>
+            </div>
+            <div class="input-box">
+                <input type="text" name="gender" placeholder="Gender">
+                <i class='bx bxs-user-detail'></i>
+            </div>
+            <div class="input-box">
+                <input type="text" name="bloodGroup" placeholder="Blood Group">
+                <i class='bx bxs-droplet'></i>
+            </div>
+            <div class="input-box">
+                <input type="text" name="address" placeholder="Address">
+                <i class='bx bxs-home'></i>
+            </div>
+        </div>
+
+        <button type="submit" class="btn">Register</button>
+        <div class="register-link">
+            <p>Already have an account? <a th:href="@{/login}">Login</a></p>
+        </div>
+    </form>
+</div>
+
+<script>
+    function toggleFields() {
+        const doctorFields = document.getElementById('doctorFields');
+        const patientFields = document.getElementById('patientFields');
+        const userType = document.querySelector('input[name="userType"]:checked').value;
+
+        if (userType === 'doctor') {
+            doctorFields.classList.remove('hidden');
+            patientFields.classList.add('hidden');
+        } else {
+            doctorFields.classList.add('hidden');
+            patientFields.classList.remove('hidden');
+        }
+    }
+</script>
+</body>
+</html>

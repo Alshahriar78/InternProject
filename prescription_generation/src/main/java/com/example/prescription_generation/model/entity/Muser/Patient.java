@@ -1,9 +1,12 @@
 package com.example.prescription_generation.model.entity.Muser;
 
 
+import com.example.prescription_generation.model.entity.precription.Prescription;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 @Entity
 @Table(name = "patients_table")
@@ -13,6 +16,7 @@ public class Patient implements MUser {
     private Long id;
     private String name;
     private String username;
+    private String email;
     private String phoneNumber;
     private String password;
     private String role;
@@ -29,8 +33,10 @@ public class Patient implements MUser {
     @Getter
     @Setter
     private String address;
-
-
+//    @Getter
+//    @Setter
+//   @OneToMany(mappedBy="patient")
+//   private List<Prescription> prescription;
 
 
     @Override
@@ -66,6 +72,16 @@ public class Patient implements MUser {
     @Override
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    @Override
+    public String getEmail() {
+        return email;
+    }
+
+    @Override
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Override

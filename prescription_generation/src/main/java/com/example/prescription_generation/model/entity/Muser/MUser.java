@@ -2,7 +2,6 @@ package com.example.prescription_generation.model.entity.Muser;
 
 public interface MUser {
 
-
     Long getId();
 
     void setName(String name);
@@ -10,6 +9,9 @@ public interface MUser {
 
     void setUsername(String username);
     String getUsername();
+
+    void setEmail(String email);
+    String getEmail();
 
     void setPhoneNumber(String phoneNumber);
     String getPhoneNumber();
@@ -22,6 +24,5 @@ public interface MUser {
 
     void setEnabled(boolean enabled);
     boolean isEnabled();
-
 
 }
