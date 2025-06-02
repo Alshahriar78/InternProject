@@ -2,6 +2,8 @@ package com.example.prescription_generation.controllers;
 
 import com.example.prescription_generation.model.entity.Muser.Doctor;
 import com.example.prescription_generation.model.entity.Muser.Patient;
+import com.example.prescription_generation.service.DoctorService;
+import com.example.prescription_generation.service.PatientService;
 import com.example.prescription_generation.service.UserRegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -18,6 +20,12 @@ public class WebController {
 
     @Autowired
     private UserRegistrationService userRegistrationService;
+
+    @Autowired
+    private DoctorService doctorService;
+
+    @Autowired
+    private PatientService patientService;
 
 
     @GetMapping("/login")
@@ -94,10 +102,18 @@ public class WebController {
         return "dashboard";
     }
 
-    @GetMapping("/prescribtion/create")
-    public String profile(Model model) {
+    @GetMapping("/prescription/create")
+    public String createPrescription(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         model.addAttribute("username", auth.getName());
+
+        // Add empty PrescriptionDTO to the model
+        model.addAttribute("prescriptionDto", new com.example.prescription_generation.model.dto.PrescriptionDTO());
+
+        // Add doctors and patients to the model
+        model.addAttribute("doctors", doctorService.getAllDoctors());
+        model.addAttribute("patients", patientService.getAllPatients());
+
         return "Prescription";
     }
 }

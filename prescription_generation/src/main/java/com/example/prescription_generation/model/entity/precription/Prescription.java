@@ -24,11 +24,13 @@ public class Prescription {
     private String Medicines;
     private LocalDate nextVisitDate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "doctor_id")
     private Doctor doctor;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "patient_id")
     private Patient patient;
+
+    private String prescribedBy;
 }

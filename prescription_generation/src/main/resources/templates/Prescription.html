@@ -2,8 +2,8 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Register - Prescription Generation System</title>
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <title>Create Prescription – Prescription Generation System</title>
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/style.css}">
     <style>
         .alert {
@@ -21,124 +21,89 @@
             color: #155724;
             border: 1px solid #c3e6cb;
         }
-        .user-type {
-            display: flex;
-            justify-content: space-around;
-            margin: 20px 0;
-        }
-        .user-type label {
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            color: #fff;
-        }
-        .user-type input {
-            margin-right: 5px;
-        }
-        .conditional-fields {
-            margin-top: 20px;
-        }
-        .conditional-fields.hidden {
-            display: none;
-        }
+        /* Keep the same .wrapper and .input-box styling as your registration/login pages */
     </style>
 </head>
 <body>
 <div class="wrapper">
-    <form th:action="@{/register}" method="post">
-        <h1>Register</h1>
 
-        <!-- Show error message if registration failed -->
-        <div th:if="${param.error}" class="alert alert-danger">
-            <span th:text="${param.error}">Error message</span>
+    <form th:action="@{/API/V1/prescriptions/save}" th:object="${prescriptionDTO}" method="post">
+        <h1>Create Prescription</h1>
+
+
+        <div th:if="${#fields.hasErrors()}" class="alert alert-danger">
+            <ul>
+                <li th:each="err : ${#fields.errors('*')}" th:text="${err}"></li>
+            </ul>
         </div>
 
-        <!-- Show success message if registration succeeded -->
         <div th:if="${param.success}" class="alert alert-success">
-            Prescription Create successful! You can now <a th:href="@{/login}">login</a>.
+            Prescription created successfully!
         </div>
 
-        <!-- Common fields for both Doctor and Patient -->
+
         <div class="input-box">
-            <input type="text" name="name" placeholder="Full Name" required>
-            <i class='bx bxs-user'></i>
-        </div>
-        <div class="input-box">
-            <input type="text" name="username" placeholder="Username" required>
-            <i class='bx bxs-user'></i>
-        </div>
-        <div class="input-box">
-            <input type="email" name="email" placeholder="Email" required>
-            <i class='bx bxs-envelope'></i>
-        </div>
-        <div class="input-box">
-            <input type="tel" name="phoneNumber" placeholder="Phone Number" required>
-            <i class='bx bxs-phone'></i>
-        </div>
-        <div class="input-box">
-            <input type="password" name="password" placeholder="Password" required>
-            <i class='bx bxs-lock-alt'></i>
+            <select th:field="*{doctorId}" required>
+                <option value="" disabled selected>– Select Doctor –</option>
+                <option th:each="doctor : ${doctors}"
+                        th:value="${doctor.id}"
+                        th:text="${doctor.name} + ' (' + doctor.specialist + ')'" />
+            </select>
+            <i class="bx bxs-user-md"></i>
         </div>
 
-        <!-- User Type Selection -->
-        <div class="user-type">
-            <label>
-                <input type="radio" name="userType" value="doctor" checked onclick="toggleFields()"> Doctor
-            </label>
-            <label>
-                <input type="radio" name="userType" value="patient" onclick="toggleFields()"> Patient
-            </label>
+
+        <div class="input-box">
+            <select th:field="*{patientId}" required>
+                <option value="" disabled selected>– Select Patient –</option>
+                <option th:each="patient : ${patients}"
+                        th:value="${patient.id}"
+                        th:text="${patient.name} + ' (Age: ' + patient.age + ', ' + patient.gender + ')'" />
+            </select>
+            <i class="bx bxs-user"></i>
         </div>
 
-        <!-- Doctor-specific fields -->
-        <div id="doctorFields" class="conditional-fields">
-            <div class="input-box">
-                <input type="text" name="specialist" placeholder="Specialization">
-                <i class='bx bxs-certification'></i>
-            </div>
+
+        <div class="input-box">
+            <input type="text"
+                   th:field="*{diagonosis}"
+                   placeholder="Diagnosis"
+                   required />
+            <i class="bx bxs-notepad"></i>
         </div>
 
-        <!-- Patient-specific fields -->
-        <div id="patientFields" class="conditional-fields hidden">
-            <div class="input-box">
-                <input type="number" name="age" placeholder="Age">
-                <i class='bx bxs-calendar'></i>
-            </div>
-            <div class="input-box">
-                <input type="text" name="gender" placeholder="Gender">
-                <i class='bx bxs-user-detail'></i>
-            </div>
-            <div class="input-box">
-                <input type="text" name="bloodGroup" placeholder="Blood Group">
-                <i class='bx bxs-droplet'></i>
-            </div>
-            <div class="input-box">
-                <input type="text" name="address" placeholder="Address">
-                <i class='bx bxs-home'></i>
-            </div>
+
+        <div class="input-box">
+            <input type="text"
+                   th:field="*{medicines}"
+                   placeholder="Medicines"
+                   required />
+            <i class="bx bxs-capsule"></i>
         </div>
 
-        <button type="submit" class="btn">Register</button>
+
+        <div class="input-box">
+            <input type="date"
+                   th:field="*{nextVisitDate}"
+                   placeholder="Next Visit Date"
+                   required />
+            <i class="bx bxs-calendar"></i>
+        </div>
+
+
+        <div class="input-box">
+            <input type="text"
+                   th:field="*{prescribedBy}"
+                   placeholder="Prescribed By (e.g., Dr. Name)"
+                   required />
+            <i class="bx bxs-pencil"></i>
+        </div>
+
+        <button type="submit" class="btn">Save Prescription</button>
         <div class="register-link">
-            <p>Already have an account? <a th:href="@{/login}">Login</a></p>
+            <p><a th:href="@{/dashboard}">&larr; Cancel</a></p>
         </div>
     </form>
 </div>
-
-<script>
-    function toggleFields() {
-        const doctorFields = document.getElementById('doctorFields');
-        const patientFields = document.getElementById('patientFields');
-        const userType = document.querySelector('input[name="userType"]:checked').value;
-
-        if (userType === 'doctor') {
-            doctorFields.classList.remove('hidden');
-            patientFields.classList.add('hidden');
-        } else {
-            doctorFields.classList.add('hidden');
-            patientFields.classList.remove('hidden');
-        }
-    }
-</script>
 </body>
 </html>

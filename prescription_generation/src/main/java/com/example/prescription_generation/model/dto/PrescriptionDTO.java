@@ -18,16 +18,9 @@ import java.time.LocalDateTime;
 @Setter
 public class PrescriptionDTO {
 
-    @JsonFormat(pattern = "dd-MM-yyyy")
-    @Past(message = "Date  must be in the after Today's")
-    @NotBlank(message = "appointment  Date Test Name is required")
+
+
     private LocalDateTime prescriptionDate;
-//    @NotBlank(message = "patient name is required")
-//    @Size(min = 5, max = 30, message = "Full name must be between 5 and 30 characters")
-//    private String patientName;
-//    private int age;
-//    @NotBlank(message = "Gender is required")
-//    private String gender;
     @NotBlank(message = "Diagnosis is required")
     private String Diagonosis;
     @NotBlank(message = "Medicines is required")
@@ -36,10 +29,7 @@ public class PrescriptionDTO {
     private Long doctor_id;
     @NotBlank(message = "Patient name is required")
     private Long patient_id;
-
-    @JsonFormat(pattern = "dd-MM-yyyy")
-    @Past(message = "Date  must be in the after Today's")
-    @NotNull(message = "Next Visiting Date is required")
     private LocalDate nextVisitDate;
+    private String prescribedBy;
 }
 

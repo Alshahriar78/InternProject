@@ -3,7 +3,7 @@ package com.example.prescription_generation.model.entity.Muser;
 public interface MUser {
 
     Long getId();
-
+   void setId(Long id);
     void setName(String name);
     String getName();
 

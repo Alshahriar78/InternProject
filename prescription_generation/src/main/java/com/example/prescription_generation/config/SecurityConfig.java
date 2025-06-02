@@ -2,6 +2,7 @@ package com.example.prescription_generation.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.*;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -46,7 +47,7 @@ public class SecurityConfig {
                                 "/doctor/register",
                                 "/API/V1/doctors/**",
                                 "/API/V1/patients/**",
-                                "/API/v1/prescription/**",
+                                "/API/V1/prescriptions/**",
                                 "/patient/register",
                                 "/v3/api-docs/**",
                                 "/swagger-ui/**",

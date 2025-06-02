@@ -1,12 +1,14 @@
 package com.example.prescription_generation.model.entity.Muser;
 
 import com.example.prescription_generation.model.entity.precription.Prescription;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
-
+@Getter
+@Setter
 @Entity
 @Table(name = "doctors_table")
 public class Doctor implements MUser {
@@ -18,16 +20,14 @@ public class Doctor implements MUser {
     private String username;
     private String email;
     private String phoneNumber;
-    @Getter
-    @Setter
+
     private String specialist;
     private String password;
     private String role;
 
-    @Getter
-    @Setter
     @OneToMany(mappedBy = "doctor",
-            cascade = CascadeType.ALL)
+             fetch = FetchType.EAGER)
+    @JsonIgnore
     private List<Prescription> prescriptions;
 
     private boolean enabled;
@@ -35,6 +35,10 @@ public class Doctor implements MUser {
     @Override
     public Long getId() {
         return id;
+    }
+    @Override
+    public void setId(Long id) {
+        this.id = id;
     }
 
 

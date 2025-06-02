@@ -2,6 +2,7 @@ package com.example.prescription_generation.model.entity.Muser;
 
 
 import com.example.prescription_generation.model.entity.precription.Prescription;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -36,13 +37,18 @@ public class Patient implements MUser {
     @Getter
     @Setter
     @OneToMany(mappedBy = "patient",
-           cascade = CascadeType.ALL)
+            fetch = FetchType.EAGER)
+    @JsonIgnore
     private List<Prescription> prescriptions;
 
 
     @Override
     public Long getId() {
         return id;
+    }
+    @Override
+    public void setId(Long id) {
+        this.id = id;
     }
 
     @Override
