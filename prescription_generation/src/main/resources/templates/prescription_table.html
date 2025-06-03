@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>My Prescriptions</title>
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+            rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <h2 class="mb-4">My Prescriptions</h2>
+
+    <div th:if="${#lists.isEmpty(prescriptions)}" class="alert alert-info">
+
+    </div>
+
+    <div th:if="${!#lists.isEmpty(prescriptions)}">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Date</th>
+                <th>Diagnosis</th>
+                <th>Medicines</th>
+                <th>Patient</th>
+                <th>Next Visit</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="pres : ${prescriptions}">
+                <td th:text="${pres.id}">1</td>
+                <td th:text="${pres.prescriptionDate}">2025-06-03</td>
+                <td th:text="${pres.diagonosis}">Example Diagnosis</td>
+                <td th:text="${pres.medicines}">Example Medicines</td>
+                <td th:text="${pres.patient_id}">Patient ID</td>
+                <td th:text="${pres.nextVisitDate}">2025-07-01</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js">
+</script>
+</body>
+</html>

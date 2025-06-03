@@ -9,9 +9,12 @@ import com.example.prescription_generation.model.mapper.PrescriptionMapper;
 import com.example.prescription_generation.repository.DoctorRepository;
 import com.example.prescription_generation.repository.PatientRepository;
 import com.example.prescription_generation.repository.PrescriptionRepository;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.List;
 
 @Service
@@ -84,9 +87,9 @@ public class PrescriptionServiceImpl implements PrescriptionService {
                 .orElseThrow(() -> new ResourceNotFoundException("Doctor not found"));
         Patient patient = patientRepository.findById(prescriptionDTO.getPatient_id())
                 .orElseThrow(() -> new ResourceNotFoundException("Patient not found"));
-         prescription = prescriptionMapper.toEntity(prescriptionDTO);
-         prescription.setPrescribedBy(doctor.getName());
-        return prescriptionMapper.toDTO(prescriptionRepository.save(prescription));
+        Prescription prescription1 = prescriptionMapper.toEntity(prescriptionDTO);
+        prescription1.setPrescribedBy(doctor.getName());
+        return prescriptionMapper.toDTO(prescriptionRepository.save(prescription1));
     }
 
 
@@ -94,12 +97,65 @@ public class PrescriptionServiceImpl implements PrescriptionService {
 
     @Transactional
     public void deletePrescription(Long id) {
-        // ১) ID অনুযায়ী Prescription খুঁজে নেই
+
         Prescription pres = prescriptionRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Prescription not found with id: " + id));
-        // ২) Prescription ডিলিট করি
+
         prescriptionRepository.delete(pres);
-        // অথবা prescriptionRepository.deleteById(id);
+
     }
+
+    @Override
+    public List<PrescriptionDTO> getByDate(LocalDate date) {
+
+        List<Prescription> prescriptions = prescriptionRepository.findByPrescriptionDate(date);
+        List<PrescriptionDTO> prescriptionDTOS = prescriptionMapper.convertAllToDTO(prescriptions);
+        for (PrescriptionDTO prescriptionDTO : prescriptionDTOS) {
+            Doctor doctor1 = doctorRepository.findById(prescriptionDTO.getDoctor_id()).orElseThrow();
+            prescriptionDTO.setPrescribedBy(doctor1.getName());
+        }
+        return prescriptionDTOS ;
+    }
+
+    @Override
+    public List<PrescriptionDTO> getLastMonthPrescription() {
+        LocalDate today = LocalDate.now();
+        YearMonth currentMonth = YearMonth.from(today);
+        YearMonth previousMonth = currentMonth.minusMonths(1);
+        LocalDate startOfLastMonth = previousMonth.atDay(1);
+        LocalDate endOfLastMonth = previousMonth.atEndOfMonth();
+
+        List<Prescription>  prescriptions =  prescriptionRepository.findByPrescriptionDateBetween(startOfLastMonth, today);
+        List<PrescriptionDTO> prescriptionDTOS = prescriptionMapper.convertAllToDTO(prescriptions);
+        for (PrescriptionDTO prescriptionDTO : prescriptionDTOS) {
+            Doctor doctor1 = doctorRepository.findById(prescriptionDTO.getDoctor_id()).orElseThrow();
+            prescriptionDTO.setPrescribedBy(doctor1.getName());
+        }
+        return prescriptionDTOS ;
+    }
+
+    @Override
+    public List<PrescriptionDTO> getPrescriptionsByLoggedInDoctor() {
+
+        String loggedInEmail = SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getName();
+
+        Doctor doctor = doctorRepository.findByEmail(loggedInEmail)
+                .orElseThrow(() -> new RuntimeException("Logged-in doctor not found: " + loggedInEmail));
+
+
+        List<Prescription> prescriptions = prescriptionRepository.findByDoctor_Id(doctor.getId());
+
+        List<PrescriptionDTO> prescriptionDTOS = prescriptionMapper.convertAllToDTO(prescriptions);
+        for (PrescriptionDTO prescriptionDTO : prescriptionDTOS) {
+            Doctor doctor1 = doctorRepository.findById(prescriptionDTO.getDoctor_id()).orElseThrow();
+            prescriptionDTO.setPrescribedBy(doctor1.getName());
+        }
+        return prescriptionDTOS ;
+
+
+    }
+
 }
 

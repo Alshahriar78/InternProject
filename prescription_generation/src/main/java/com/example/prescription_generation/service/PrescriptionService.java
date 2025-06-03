@@ -5,6 +5,8 @@ import com.example.prescription_generation.model.dto.PrescriptionDTO;
 import com.example.prescription_generation.model.entity.precription.Prescription;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface PrescriptionService {
@@ -14,4 +16,7 @@ public interface PrescriptionService {
     PrescriptionDTO updatePrescription(Long id, PrescriptionDTO dto);
     @Transactional
     void deletePrescription(Long id);
+    List<PrescriptionDTO> getByDate(LocalDate date);
+    List<PrescriptionDTO> getLastMonthPrescription();
+    List<PrescriptionDTO> getPrescriptionsByLoggedInDoctor();
 }

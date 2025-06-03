@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+
 
 @Getter
 @Setter
@@ -19,7 +19,7 @@ public class Prescription {
     @Id
     @GeneratedValue( strategy = GenerationType.AUTO)
     private Long id;
-    private LocalDateTime prescriptionDate;
+    private LocalDate prescriptionDate;
     private String Diagonosis;
     private String Medicines;
     private LocalDate nextVisitDate;

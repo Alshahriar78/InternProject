@@ -36,6 +36,7 @@ public class DoctorDTO {
     private String password;
 
 
+    private String role;
 
     private boolean enabled;
 }

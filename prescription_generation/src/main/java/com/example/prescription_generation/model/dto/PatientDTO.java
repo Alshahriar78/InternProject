@@ -15,4 +15,6 @@ public class PatientDTO {
     private String address;
     private int age;
     private String gender;
+    private String role;
+    private boolean enabled;
 }

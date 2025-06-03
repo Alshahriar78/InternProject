@@ -39,4 +39,12 @@ public class DoctorMapper {
         }
         return dtoList;
     }
+
+    public List<Doctor> convertAllToEntity(List<DoctorDTO> doctorDTOS) {
+        List<Doctor> doctors = new ArrayList<>();
+        for (DoctorDTO doctorDTO : doctorDTOS) {
+            doctors.add(toEntity(doctorDTO));
+        }
+        return doctors;
+    }
 }

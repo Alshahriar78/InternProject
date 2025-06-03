@@ -117,12 +117,10 @@
     <form th:action="@{/perform_login}" method="post">
         <h1>Login</h1>
 
-        <!-- Show error message if login failed -->
         <div th:if="${param.error}" class="alert alert-danger">
             Invalid email or password
         </div>
 
-        <!-- Show success message if logged out -->
         <div th:if="${param.logout}" class="alert alert-success">
             You have been logged out
         </div>

@@ -1,16 +1,15 @@
 package com.example.prescription_generation.model.mapper;
 
 
-import com.example.prescription_generation.model.dto.PatientDTO;
+
 import com.example.prescription_generation.model.dto.PrescriptionDTO;
-import com.example.prescription_generation.model.entity.Muser.Patient;
 import com.example.prescription_generation.model.entity.precription.Prescription;
 import com.example.prescription_generation.repository.DoctorRepository;
 import com.example.prescription_generation.repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +25,7 @@ public class PrescriptionMapper {
             return null;
         }
         Prescription prescription = new Prescription();
-        prescription.setPrescriptionDate(LocalDateTime.now());
+        prescription.setPrescriptionDate(LocalDate.now());
         prescription.setDiagonosis(prescriptionDTO.getDiagonosis());
         prescription.setMedicines(prescriptionDTO.getMedicines());
         prescription.setNextVisitDate(prescriptionDTO.getNextVisitDate());
@@ -40,6 +39,7 @@ public class PrescriptionMapper {
             return null;
         }
         PrescriptionDTO prescriptionDTO = new PrescriptionDTO();
+        prescriptionDTO.setId(prescription.getId());
         prescriptionDTO.setPrescriptionDate(prescription.getPrescriptionDate());
         prescriptionDTO.setDiagonosis(prescription.getDiagonosis());
         prescriptionDTO.setMedicines(prescription.getMedicines());

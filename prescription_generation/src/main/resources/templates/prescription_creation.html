@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Prescription</title>
+    <!-- Bootstrap 5 CSS (via CDN) -->
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-ENjdO4Dr2bkBIFxQpeo5sBF11hpbnuMd2+IbbVYUew+OrCXaRkfj"
+            crossorigin="anonymous">
+</head>
+<body>
+<div class="container mt-5">
+    <h2 class="mb-4">Create Prescription</h2>
+
+    <form th:action="@{/Prescription-create}" th:object="${prescription}" method="post">
+        <!-- Prescription Date -->
+        <div class="mb-3">
+            <label for="prescriptionDate" class="form-label">Prescription Date</label>
+            <input type="date"
+                   th:field="*{prescriptionDate}"
+                   class="form-control"
+                   id="prescriptionDate"
+                   required />
+        </div>
+
+        <!-- Diagnosis -->
+        <div class="mb-3">
+            <label for="diagonosis" class="form-label">Diagnosis</label>
+            <textarea th:field="*{diagonosis}"
+                      class="form-control"
+                      id="diagonosis"
+                      rows="2"
+                      placeholder="Enter diagnosis"
+                      required></textarea>
+        </div>
+
+        <!-- Medicines -->
+        <div class="mb-3">
+            <label for="medicines" class="form-label">Medicines</label>
+            <textarea th:field="*{medicines}"
+                      class="form-control"
+                      id="medicines"
+                      rows="3"
+                      placeholder="List medicines"
+                      required></textarea>
+        </div>
+
+        <!-- Next Visit Date (optional) -->
+        <div class="mb-3">
+            <label for="nextVisitDate" class="form-label">Next Visit Date</label>
+            <input type="date"
+                   th:field="*{nextVisitDate}"
+                   class="form-control"
+                   id="nextVisitDate" />
+        </div>
+
+
+        <div class="mb-3">
+            <label for="patient" class="form-label">Patient</label>
+            <select th:field="*{patient_id}"
+                    class="form-select"
+                    id="patient"
+                    required>
+                <option th:each="pat : ${patients}"
+                        th:value="${pat.id}"
+                        th:text="${pat.name}">
+                </option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save Prescription</button>
+    </form>
+
+
+    <!-- Bootstrap 5 JS Bundle (via CDN) -->
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-qQ2C6dXQ7BUuQIAN+8rIKHOf4HbChZTnniG7jKTIJMLg4ooEX5jvDys4NXh+EhF+"
+        crossorigin="anonymous"></script>
+</body>
+</html>
