@@ -61,15 +61,6 @@ public class Patient implements MUser {
         this.name = name;
     }
 
-    @Override
-    public String getUsername() {
-        return username;
-    }
-
-    @Override
-    public void setUsername(String username) {
-        this.username = username;
-    }
 
     @Override
     public String getPhoneNumber() {

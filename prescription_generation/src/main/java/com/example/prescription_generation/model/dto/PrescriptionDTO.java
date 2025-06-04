@@ -4,6 +4,7 @@ package com.example.prescription_generation.model.dto;
 
 import jakarta.validation.constraints.NotBlank;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,14 +19,15 @@ public class PrescriptionDTO {
 
     private LocalDate prescriptionDate;
     @NotBlank(message = "Diagnosis is required")
-    private String Diagonosis;
+    private String diagonosis;
     @NotBlank(message = "Medicines is required")
-    private String Medicines;
-    @NotBlank(message = "Doctor name is required")
+    private String medicines;
+    @NotNull(message = "Doctor name is required")
     private Long doctor_id;
-    @NotBlank(message = "Patient name is required")
+    @NotNull(message = "Patient name is required")
     private Long patient_id;
     private LocalDate nextVisitDate;
     private String prescribedBy;
+    private String patient_name;
 }
 

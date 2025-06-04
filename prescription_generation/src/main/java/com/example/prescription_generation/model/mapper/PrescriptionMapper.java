@@ -25,7 +25,7 @@ public class PrescriptionMapper {
             return null;
         }
         Prescription prescription = new Prescription();
-        prescription.setPrescriptionDate(LocalDate.now());
+        prescription.setPrescriptionDate(prescriptionDTO.getPrescriptionDate());
         prescription.setDiagonosis(prescriptionDTO.getDiagonosis());
         prescription.setMedicines(prescriptionDTO.getMedicines());
         prescription.setNextVisitDate(prescriptionDTO.getNextVisitDate());
@@ -46,6 +46,8 @@ public class PrescriptionMapper {
         prescriptionDTO.setNextVisitDate(prescription.getNextVisitDate());
         prescriptionDTO.setDoctor_id(prescription.getDoctor().getId());
         prescriptionDTO.setPatient_id(prescription.getPatient().getId());
+        prescriptionDTO.setPatient_name(prescription.getPatientName());
+        prescriptionDTO.setPrescribedBy(prescription.getPrescribedBy());
         return prescriptionDTO;
     }
     public List<PrescriptionDTO> convertAllToDTO(List<Prescription> prescriptions) {

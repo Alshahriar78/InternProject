@@ -20,8 +20,8 @@ public class Prescription {
     @GeneratedValue( strategy = GenerationType.AUTO)
     private Long id;
     private LocalDate prescriptionDate;
-    private String Diagonosis;
-    private String Medicines;
+    private String diagonosis;
+    private String medicines;
     private LocalDate nextVisitDate;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -33,4 +33,7 @@ public class Prescription {
     private Patient patient;
 
     private String prescribedBy;
+
+    @Column(name = "patient_name")
+    private String patientName;
 }

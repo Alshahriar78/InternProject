@@ -7,7 +7,6 @@ import lombok.Setter;
 @Setter
 public class PatientDTO {
     private String name;
-    private String username;
     private String phoneNumber;
     private String email;
     private String password;

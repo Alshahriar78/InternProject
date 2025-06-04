@@ -12,18 +12,19 @@
     <h2 class="mb-4">My Prescriptions</h2>
 
     <div th:if="${#lists.isEmpty(prescriptions)}" class="alert alert-info">
-
+        No Prescription Found
     </div>
 
     <div th:if="${!#lists.isEmpty(prescriptions)}">
         <table class="table table-striped">
-            <thead>
+            <thead class="bg-animate">
             <tr>
                 <th>ID</th>
                 <th>Date</th>
                 <th>Diagnosis</th>
                 <th>Medicines</th>
-                <th>Patient</th>
+                <th>Patient ID</th>
+                <th>Patient Name</th>
                 <th>Next Visit</th>
             </tr>
             </thead>
@@ -34,7 +35,23 @@
                 <td th:text="${pres.diagonosis}">Example Diagnosis</td>
                 <td th:text="${pres.medicines}">Example Medicines</td>
                 <td th:text="${pres.patient_id}">Patient ID</td>
+                <td th:text="${pres.patient_name}">Patient Name</td>
                 <td th:text="${pres.nextVisitDate}">2025-07-01</td>
+                <td>
+                    <!-- Edit বাটন -->
+                    <a th:href="@{/Prescription-Update/{id}(id=${pres.id})}"
+                       class="btn btn-sm btn-primary me-1">
+                        Edit
+                    </a>
+
+                    <!-- Delete বাটন: onclick confirm দিয়ে -->
+                    <a th:href="@{/Prescription-Delete/{id}(id=${pres.id})}"
+                       class="btn btn-sm btn-danger"
+                       th:onclick="|return confirm('Are you sure you want to delete prescription ${pres.id}?');|">
+                        Delete
+                    </a>
+                </td>
+
             </tr>
             </tbody>
         </table>

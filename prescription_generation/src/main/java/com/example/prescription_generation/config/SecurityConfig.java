@@ -43,6 +43,7 @@ public class SecurityConfig {
                                 "/api/auth/**",
                                 "/api/auth/login",
                                 "/api/auth/register",
+                                "/Consume-External-API",
                                 "/h2-console/**",
                                 "/doctor/register",
                                 "/API/V1/doctors/**",

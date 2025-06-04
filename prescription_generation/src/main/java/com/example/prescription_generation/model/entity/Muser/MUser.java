@@ -7,8 +7,6 @@ public interface MUser {
     void setName(String name);
     String getName();
 
-    void setUsername(String username);
-    String getUsername();
 
     void setEmail(String email);
     String getEmail();

@@ -22,7 +22,6 @@ public class PatientMapper {
     public Patient toEntity(PatientDTO patientDTO){
         Patient patient = new Patient();
         patient.setName(patientDTO.getName());
-        patient.setUsername(patientDTO.getUsername());
         patient.setPhoneNumber(patientDTO.getPhoneNumber());
         patient.setEmail(patientDTO.getEmail());
         patient.setPassword(passwordEncoder.encode(patientDTO.getPassword()));
@@ -36,7 +35,6 @@ public class PatientMapper {
     public PatientDTO toDTO(Patient patient){
         PatientDTO patientDTO = new PatientDTO();
         patientDTO.setName(patient.getName());
-        patientDTO.setUsername(patient.getUsername());
         patientDTO.setPhoneNumber(patient.getPhoneNumber());
         patientDTO.setEmail(patient.getEmail());
         patientDTO.setPassword(patient.getPassword());

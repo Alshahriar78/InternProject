@@ -17,7 +17,6 @@ public class Doctor implements MUser {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
-    private String username;
     private String email;
     private String phoneNumber;
 
@@ -52,15 +51,8 @@ public class Doctor implements MUser {
         this.name = name;
     }
 
-    @Override
-    public String getUsername() {
-        return username;
-    }
 
-    @Override
-    public void setUsername(String username){
-        this.username = username;
-    }
+
 
     @Override
     public String getPhoneNumber() {

@@ -2,6 +2,7 @@ package com.example.prescription_generation.model.dto;
 
 
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -16,9 +17,9 @@ public class DoctorDTO {
     @Size(max = 100, message = "Name must be less than 100 characters")
     private String name;
 
-    @NotBlank(message = "Username is required")
-    @Size(min = 4, max = 50, message = "Username must be between 4 and 50 characters")
-    private String username;
+    @NotBlank(message = "Email is mandatory")
+    @Email(message = "Invalid email format")
+    private String email;
 
     @NotBlank(message = "Phone number is required")
     @Pattern(

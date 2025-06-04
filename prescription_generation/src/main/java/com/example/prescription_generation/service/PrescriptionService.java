@@ -1,5 +1,6 @@
 package com.example.prescription_generation.service;
 
+import com.example.prescription_generation.model.dto.DayWisePrescriptionCountDTO;
 import com.example.prescription_generation.model.dto.PatientDTO;
 import com.example.prescription_generation.model.dto.PrescriptionDTO;
 import com.example.prescription_generation.model.entity.precription.Prescription;
@@ -19,4 +20,8 @@ public interface PrescriptionService {
     List<PrescriptionDTO> getByDate(LocalDate date);
     List<PrescriptionDTO> getLastMonthPrescription();
     List<PrescriptionDTO> getPrescriptionsByLoggedInDoctor();
+    @Transactional
+    void deleteById(Long id);
+
+    List<DayWisePrescriptionCountDTO> getDayWisePrescriptionCount();
 }

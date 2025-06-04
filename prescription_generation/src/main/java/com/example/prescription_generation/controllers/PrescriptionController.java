@@ -2,7 +2,9 @@
 package com.example.prescription_generation.controllers;
 
 
+import com.example.prescription_generation.model.dto.DayWisePrescriptionCountDTO;
 import com.example.prescription_generation.model.dto.PrescriptionDTO;
+import com.example.prescription_generation.repository.PrescriptionRepository;
 import com.example.prescription_generation.service.PrescriptionService;
 import com.example.prescription_generation.service.PrescriptionServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,8 @@ public class PrescriptionController {
     private final PrescriptionService prescriptionService;
     @Autowired
     private PrescriptionServiceImpl prescriptionServiceImpl;
+    @Autowired
+    private PrescriptionRepository prescriptionRepository;
 
     public PrescriptionController(PrescriptionService prescriptionService) {
         this.prescriptionService = prescriptionService;
@@ -40,7 +44,7 @@ public class PrescriptionController {
         return prescriptionService.getPrescriptionById(id);
     }
 
-    @GetMapping("/all")
+    @GetMapping()
     public Iterable<PrescriptionDTO> getAllPrescriptions(){
         return prescriptionService.getAllPrescriptions();
     }
@@ -77,4 +81,10 @@ public class PrescriptionController {
         }
         return ResponseEntity.ok(results);
     }
+
+//    @GetMapping("/Daywise-prescription-count")
+//    public List<DayWisePrescriptionCountDTO> dayWisePrescriptionCount() {
+//        return prescriptionRepository.findDayWisePrescriptionCount();
+//    }
+
 }

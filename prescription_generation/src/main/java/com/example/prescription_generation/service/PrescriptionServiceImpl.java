@@ -1,6 +1,7 @@
 package com.example.prescription_generation.service;
 
 import com.example.prescription_generation.exception.ResourceNotFoundException;
+import com.example.prescription_generation.model.dto.DayWisePrescriptionCountDTO;
 import com.example.prescription_generation.model.dto.PrescriptionDTO;
 import com.example.prescription_generation.model.entity.Muser.Doctor;
 import com.example.prescription_generation.model.entity.Muser.Patient;
@@ -9,12 +10,14 @@ import com.example.prescription_generation.model.mapper.PrescriptionMapper;
 import com.example.prescription_generation.repository.DoctorRepository;
 import com.example.prescription_generation.repository.PatientRepository;
 import com.example.prescription_generation.repository.PrescriptionRepository;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -44,12 +47,11 @@ public class PrescriptionServiceImpl implements PrescriptionService {
 
         Prescription prescription = prescriptionMapper.toEntity(prescriptionDTO);
         Doctor doctor1 = doctorRepository.findById(prescriptionDTO.getDoctor_id()).get();
-        System.out.println(doctor1);
         prescription.setPrescribedBy(doctor1.getName());
         prescription.setDoctor(doctor1);
         Patient patient1 = patientRepository.findById(prescriptionDTO.getPatient_id()).get();
-        System.out.println(patient1);
         prescription.setPatient(patient1);
+        prescription.setPatientName(patient.getName());
         prescriptionRepository.save(prescription);
         return prescriptionMapper.toDTO(prescriptionRepository.save(prescription));
 
@@ -60,36 +62,36 @@ public class PrescriptionServiceImpl implements PrescriptionService {
         Prescription prescription = prescriptionRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Prescription not found"));
         PrescriptionDTO prescriptionDTO = prescriptionMapper.toDTO(prescription);
-        Doctor doctor1 = doctorRepository.findById(prescription.getDoctor().getId()).orElseThrow();
-        prescriptionDTO.setPrescribedBy(doctor1.getName());
-
-
+        Doctor doctor1 = doctorRepository.findById(prescription.getDoctor().getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Doctor not found"));
         return prescriptionDTO ;
     }
 
     @Override
     public List<PrescriptionDTO> getAllPrescriptions() {
         List<Prescription> prescriptions = prescriptionRepository.findAll();
-        List<PrescriptionDTO> prescriptionDTOS = prescriptionMapper.convertAllToDTO(prescriptions);
-        for (PrescriptionDTO prescriptionDTO : prescriptionDTOS) {
-            Doctor doctor1 = doctorRepository.findById(prescriptionDTO.getDoctor_id()).orElseThrow();
-            prescriptionDTO.setPrescribedBy(doctor1.getName());
-        }
-        return prescriptionDTOS ;
+        return  prescriptionMapper.convertAllToDTO(prescriptions) ;
     }
 
     @Override
     public PrescriptionDTO updatePrescription(Long id, PrescriptionDTO prescriptionDTO) {
-        Prescription prescription = prescriptionRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Prescription not found"));
+        Prescription existing = prescriptionRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Prescription not found with id: " + id));
 
         Doctor doctor = doctorRepository.findById(prescriptionDTO.getDoctor_id())
-                .orElseThrow(() -> new ResourceNotFoundException("Doctor not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Doctor not found with id: " + prescriptionDTO.getDoctor_id()));
         Patient patient = patientRepository.findById(prescriptionDTO.getPatient_id())
-                .orElseThrow(() -> new ResourceNotFoundException("Patient not found"));
-        Prescription prescription1 = prescriptionMapper.toEntity(prescriptionDTO);
-        prescription1.setPrescribedBy(doctor.getName());
-        return prescriptionMapper.toDTO(prescriptionRepository.save(prescription1));
+                .orElseThrow(() -> new ResourceNotFoundException("Patient not found with id: " + prescriptionDTO.getPatient_id()));
+        existing.setPrescriptionDate(prescriptionDTO.getPrescriptionDate());
+        existing.setDoctor(doctor);
+        existing.setPatient(patient);
+        existing.setDiagonosis(prescriptionDTO.getDiagonosis());
+        existing.setMedicines(prescriptionDTO.getMedicines());
+        existing.setPrescribedBy(doctor.getName());
+        existing.setPatientName(patient.getName());
+        existing.setNextVisitDate(prescriptionDTO.getNextVisitDate());
+        prescriptionRepository.save(existing);
+        return prescriptionMapper.toDTO(prescriptionRepository.save(existing));
     }
 
 
@@ -153,6 +155,35 @@ public class PrescriptionServiceImpl implements PrescriptionService {
             prescriptionDTO.setPrescribedBy(doctor1.getName());
         }
         return prescriptionDTOS ;
+
+
+    }
+
+    @Transactional
+    public void deleteById(Long id) {
+        Prescription pres = prescriptionRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Not found: " + id));
+        prescriptionRepository.delete(pres);
+    }
+
+    @Override
+    public List<DayWisePrescriptionCountDTO> getDayWisePrescriptionCount() {
+        String loggedInEmail = SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getName();
+
+        Doctor doctor = doctorRepository.findByEmail(loggedInEmail)
+                .orElseThrow(() -> new RuntimeException("Logged-in doctor not found: " + loggedInEmail));
+        System.out.println(doctor.getId());
+        List<Object[]> raw = prescriptionRepository.findDayWiseCountByDoctor(doctor.getId());
+
+        List<DayWisePrescriptionCountDTO> result = new ArrayList<>();
+        for (Object[] arr : raw) {
+            LocalDate day = (arr[0] == null) ? null : (LocalDate) arr[0];
+            Long count = (arr[1] == null) ? 0L : (Long) arr[1];
+            result.add(new DayWisePrescriptionCountDTO(day, count));
+        }
+        return result;
 
 
     }

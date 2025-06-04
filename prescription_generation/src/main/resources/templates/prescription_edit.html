@@ -2,21 +2,23 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Create Prescription</title>
-    <!-- Bootstrap 5 CSS (via CDN) -->
+    <title>Edit Prescription</title>
     <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-            integrity="sha384-ENjdO4Dr2bkBIFxQpeo5sBF11hpbnuMd2+IbbVYUew+OrCXaRkfj"
-            crossorigin="anonymous">
+            rel="stylesheet">
 </head>
 <body>
 <div class="container mt-5">
-    <h2 class="mb-4">Create Prescription</h2>
+    <h2 class="mb-4">Edit Prescription</h2>
 
-    <form th:action="@{/Prescription-create}" th:object="${prescription}" method="post">
+    <!-- ModelAttribute হিসাবে "prescription" এসেছে, আর ছুঁড়ে গেছে PrescriptionDTO -->
+    <form th:action="@{/Prescription-Update/{id}(id=${prescription.id})}"
+          th:object="${prescription}"
+          method="post">
+
+        <input type="hidden" th:field="*{doctor_id}" />
         <!-- Prescription Date -->
-        <div class="mb-3 form-group">
+        <div class="mb-3">
             <label for="prescriptionDate" class="form-label">Prescription Date</label>
             <input type="date"
                    th:field="*{prescriptionDate}"
@@ -56,7 +58,7 @@
                    id="nextVisitDate" />
         </div>
 
-
+        <!-- Patient dropdown -->
         <div class="mb-3">
             <label for="patient" class="form-label">Patient</label>
             <select th:field="*{patient_id}"
@@ -65,19 +67,22 @@
                     required>
                 <option th:each="pat : ${patients}"
                         th:value="${pat.id}"
-                        th:text="${pat.name}">
+                        th:text="${pat.name}"
+                        th:selected="${pat.id == prescription.patient_id}">
                 </option>
             </select>
+            <div th:if="${#fields.hasErrors('patient_id')}"
+                 th:errors="*{patient_id}"
+                 class="text-danger small"></div>
         </div>
 
-        <button type="submit" class="btn btn-primary">Save Prescription</button>
+        <button type="submit" class="btn btn-success">Update Prescription</button>
+        <a th:href="@{/dashboard}" class="btn btn-secondary ms-2">Cancel</a>
     </form>
+</div>
 
-
-    <!-- Bootstrap 5 JS Bundle (via CDN) -->
 <script
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-qQ2C6dXQ7BUuQIAN+8rIKHOf4HbChZTnniG7jKTIJMLg4ooEX5jvDys4NXh+EhF+"
-        crossorigin="anonymous"></script>
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js">
+</script>
 </body>
 </html>
