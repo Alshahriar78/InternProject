@@ -24,7 +24,6 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
 
     @Override
     public Doctor registerDoctor(DoctorDTO doctorDTO) {
-        // Check if email already exists
         if (doctorRepository.findByEmail(doctorDTO.getEmail()).isPresent() ||
             patientRepository.findByEmail(doctorDTO.getEmail()).isPresent()) {
             throw new RuntimeException("Email already in use");

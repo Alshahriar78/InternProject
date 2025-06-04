@@ -82,9 +82,6 @@ public class PrescriptionController {
         return ResponseEntity.ok(results);
     }
 
-//    @GetMapping("/Daywise-prescription-count")
-//    public List<DayWisePrescriptionCountDTO> dayWisePrescriptionCount() {
-//        return prescriptionRepository.findDayWisePrescriptionCount();
-//    }
+
 
 }

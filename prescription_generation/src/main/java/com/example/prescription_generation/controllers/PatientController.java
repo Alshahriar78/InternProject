@@ -25,7 +25,7 @@ public class PatientController {
     public Iterable<PatientDTO> getAllPatients(){
         return patientService.getAllPatients();
     }
-//    @RequestParam String keyword
+
     @GetMapping("/search")
     public Iterable<PatientDTO> getPatientByName(@RequestParam String keyword){
         return patientService.getPatientByName(keyword);
