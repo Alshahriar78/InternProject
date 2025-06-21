@@ -9,27 +9,7 @@
 </head>
 <body>
 <div class="container mt-5">
-    <div th:if="${param.createSuccess}" class="alert alert-success alert-dismissible fade show" role="alert">
-        Prescription successfully Created.
-        <button type="button"
-                class="btn-close"
-                data-bs-dismiss="alert"
-                aria-label="Close">X</button>
-    </div>
-    <div th:if="${param.updateSuccess}" class="alert alert-success alert-dismissible fade show" role="alert">
-        Prescription successfully updated.
-        <button type="button"
-                class="btn-close"
-                data-bs-dismiss="alert"
-                aria-label="Close">X</button>
-    </div>
-    <div th:if="${param.deleteSuccess}" class="alert alert-success alert-dismissible fade show">
-        Prescription successfully deleted.
-        <button type="button"
-                class="btn-close"
-                data-bs-dismiss="alert"
-                aria-label="Close">X</button>
-    </div>
+
 
     <a th:href="@{/dashboard}"
        class="btn btn-lg btn-success me-1">

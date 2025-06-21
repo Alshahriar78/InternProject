@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/API/V1/patients")
+@RequestMapping("/API/V1/patient")
 public class PatientController {
 
 
@@ -25,7 +25,7 @@ public class PatientController {
     public Iterable<PatientDTO> getAllPatients(){
         return patientService.getAllPatients();
     }
-
+//    @RequestParam String keyword
     @GetMapping("/search")
     public Iterable<PatientDTO> getPatientByName(@RequestParam String keyword){
         return patientService.getPatientByName(keyword);

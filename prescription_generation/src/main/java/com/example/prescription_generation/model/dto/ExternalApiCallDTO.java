@@ -9,7 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ExternalApiCallDTO {
         private Long id;
-        private String title;
-        private String completed;
+        private String postId;
+        private String name;
+        private String email;
+        private String body;
 
 }

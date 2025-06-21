@@ -3,6 +3,7 @@ package com.example.prescription_generation.controllers;
 import com.example.prescription_generation.model.dto.*;
 import com.example.prescription_generation.model.entity.Muser.Doctor;
 import com.example.prescription_generation.model.entity.Muser.Patient;
+import com.example.prescription_generation.model.entity.precription.Prescription;
 import com.example.prescription_generation.model.mapper.DoctorMapper;
 import com.example.prescription_generation.model.mapper.PatientMapper;
 import com.example.prescription_generation.model.mapper.PrescriptionMapper;
@@ -11,6 +12,8 @@ import com.example.prescription_generation.repository.PatientRepository;
 import com.example.prescription_generation.repository.PrescriptionRepository;
 import com.example.prescription_generation.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -21,6 +24,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import jakarta.validation.Valid;
 import org.springframework.validation.BindingResult;
 
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 
@@ -65,6 +69,7 @@ public class WebController {
 
     @PostMapping("/register")
     public String registerUser(
+            @Valid
             @RequestParam("userType") String userType,
             @RequestParam("name") String name,
             @RequestParam("username") String username,
@@ -79,6 +84,7 @@ public class WebController {
             RedirectAttributes redirectAttributes) {
 
         try {
+
             if ("doctor".equals(userType)) {
                 DoctorDTO doctorDTO = new DoctorDTO();
                 doctorDTO.setName(name);
@@ -106,6 +112,7 @@ public class WebController {
             redirectAttributes.addAttribute("success", "true");
             return "redirect:/login";
         } catch (Exception e) {
+
             redirectAttributes.addAttribute("error", e.getMessage());
             return "redirect:/register";
         }
@@ -124,7 +131,7 @@ public class WebController {
         return "dashboard";
     }
 
-    @GetMapping("/Prescription-create")
+    @GetMapping("/prescription-create")
     public String showCreateForm(Model model) {
         PrescriptionDTO prescriptionDTO = new PrescriptionDTO();
         List<Patient> patients = patientRepository.findAll() ;
@@ -133,8 +140,22 @@ public class WebController {
         return "prescription_creation";
     }
 
-    @PostMapping(value = "/Prescription-create")
-    public String createPrescription(@ModelAttribute("prescription") PrescriptionDTO prescriptionDTO) {
+    @PostMapping( "/prescription-create")
+    public String createPrescription( @Valid
+            @ModelAttribute("prescription") PrescriptionDTO prescriptionDTO,
+            BindingResult bindingResult,
+            Model model
+
+    ) {
+        if (bindingResult.hasErrors()) {
+
+            model.addAttribute("patients", patientRepository.findAll());
+            bindingResult.getAllErrors().forEach(error -> {
+                System.out.println("Validation error: " + error);
+            });
+
+            return "prescription_creation";
+        }
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String loggedInUsername = auth.getName();
 
@@ -147,17 +168,31 @@ public class WebController {
         prescriptionService.savePrescription(prescriptionDTO);
 
 
-        return "redirect:/dashboard?success=true";
+        return "redirect:/prescription-list?createSuccess=true";
     }
-    @GetMapping("/Prescription-list")
+    @GetMapping("/prescription-list")
     public String showPrescriptionList(Model model, Authentication auth) {
         model.addAttribute("username", auth.getName());
-        List<PrescriptionDTO> prescriptions = prescriptionService.getPrescriptionsByLoggedInDoctor();
+        List<PrescriptionDTO> prescriptions = prescriptionService.getLastMonthPrescription();
         model.addAttribute("prescriptions", prescriptions);
         return "prescription_table";
     }
 
-    @GetMapping("/Prescription-Update/{id}")
+    @GetMapping("/search-by-date")
+    public String getByDateRange(
+            @RequestParam("from") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
+            @RequestParam("to") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to,
+            Model model
+    ) {
+
+        List<PrescriptionDTO> prescriptions =  prescriptionService.getPrescriptionSearchByFromDateToDate(from,to);
+
+        model.addAttribute("prescriptions", prescriptions);
+
+        return "seach_prescription";
+    }
+
+    @GetMapping("/prescription-update/{id}")
     public String showEditForm(@PathVariable("id") Long id, Model model) {
         PrescriptionDTO dto = prescriptionService.getPrescriptionById(id);
 
@@ -175,7 +210,7 @@ public class WebController {
         return "prescription_edit";
     }
 
-    @PostMapping("/Prescription-Update/{id}")
+    @PostMapping("/prescription-update/{id}")
     public String updatePrescription(@PathVariable("id") Long id,
                                      @Valid @ModelAttribute("prescription") PrescriptionDTO prescriptionDTO,
                                      BindingResult bindingResult,
@@ -197,31 +232,34 @@ public class WebController {
 
         prescriptionService.updatePrescription(id, prescriptionDTO);
 
-        return "redirect:/dashboard?updateSuccess=true";
+        return "redirect:/prescription-list?updateSuccess=true";
     }
 
-    @GetMapping("/Prescription-Delete/{id}")
+    @GetMapping("/prescription-delete/{id}")
     public String deletePrescription(@PathVariable("id") Long id) {
         prescriptionService.deleteById(id);
-        return "redirect:/dashboard?deleteSuccess=true";
+        return "redirect:/prescription-list?deleteSuccess=true";
     }
 
-    @GetMapping("/reports/daywise-prescription")
+    @GetMapping("/reports/day-wise-prescription")
     public String showDayWiseReport(Model model) {
         List<DayWisePrescriptionCountDTO> reportData = prescriptionService.getDayWisePrescriptionCount();
         model.addAttribute("reportData", reportData);
         return "prescription_daywise_report";  // resources/templates/prescription_daywise_report.html
     }
 
-    @GetMapping("/Consume-External-API")
-    public String showConsumeExternalAPI(Model model) {
+    @GetMapping("/consume-external-API")
+    public String showConsumeExternalAPI(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
+            Model model) {
 
         try {
             model.addAttribute("externalApiCalls", externalApiCallService.getAllPosts());
             return "external_api_response";
         }catch (HttpClientErrorException.NotFound ex) {
             model.addAttribute("externalApiCalls", Collections.emptyList());
-            model.addAttribute("apiError", "কোনো ডেটা পাওয়া যায়নি (404)।");
+            model.addAttribute("apiError", "Found No DATA");
             return "redirect:/dashboard?notFound=true";
         }
     }

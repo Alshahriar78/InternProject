@@ -18,7 +18,7 @@ public class ExternalApiCallController {
 
     private final ExternalApiCallService externalApiCallService;
 
-    @GetMapping("/REST/Consume-External-API")
+    @GetMapping("/REST/consume-external-API")
     public ResponseEntity<?> getExternalApiCall() {
         try {
             List<ExternalApiCallDTO> posts = externalApiCallService.getAllPosts();

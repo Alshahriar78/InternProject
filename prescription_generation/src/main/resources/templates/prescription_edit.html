@@ -11,8 +11,8 @@
 <div class="container mt-5">
     <h2 class="mb-4">Edit Prescription</h2>
 
-    <!-- ModelAttribute হিসাবে "prescription" এসেছে, আর ছুঁড়ে গেছে PrescriptionDTO -->
-    <form th:action="@{/Prescription-Update/{id}(id=${prescription.id})}"
+
+    <form th:action="@{/prescription-update/{id}(id=${prescription.id})}"
           th:object="${prescription}"
           method="post">
 
@@ -24,7 +24,12 @@
                    th:field="*{prescriptionDate}"
                    class="form-control"
                    id="prescriptionDate"
-                   required />
+                    />
+            <div class="text-danger" th:if="${#fields.hasErrors('prescriptionDate')}"
+                 th:errors="*{prescriptionDate}">
+                Date Error
+            </div>
+
         </div>
 
         <!-- Diagnosis -->
@@ -35,7 +40,11 @@
                       id="diagonosis"
                       rows="2"
                       placeholder="Enter diagnosis"
-                      required></textarea>
+                      ></textarea>
+            <div class="text-danger" th:if="${#fields.hasErrors('diagonosis')}"
+                 th:errors="*{diagonosis}">
+                Date Error
+            </div>
         </div>
 
         <!-- Medicines -->
@@ -46,7 +55,11 @@
                       id="medicines"
                       rows="3"
                       placeholder="List medicines"
-                      required></textarea>
+                      ></textarea>
+            <div class="text-danger" th:if="${#fields.hasErrors('medicines')}"
+                 th:errors="*{medicines}">
+                Date Error
+            </div>
         </div>
 
         <!-- Next Visit Date (optional) -->

@@ -16,7 +16,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping("/API/V1/prescriptions")
+@RequestMapping("/API/V1/prescription")
 public class PrescriptionController {
 
     private final PrescriptionService prescriptionService;
@@ -75,13 +75,15 @@ public class PrescriptionController {
     @GetMapping("/last-month")
     public ResponseEntity<List<PrescriptionDTO>> findLastMonth() {
         List<PrescriptionDTO> results = prescriptionService.getLastMonthPrescription();
-        System.out.println(results.size()+ " results found");
         if (results.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.ok(results);
     }
 
-
+//    @GetMapping("/Daywise-prescription-count")
+//    public List<DayWisePrescriptionCountDTO> dayWisePrescriptionCount() {
+//        return prescriptionRepository.findDayWisePrescriptionCount();
+//    }
 
 }

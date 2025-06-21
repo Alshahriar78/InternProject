@@ -121,13 +121,18 @@ public class PrescriptionServiceImpl implements PrescriptionService {
 
     @Override
     public List<PrescriptionDTO> getLastMonthPrescription() {
-        LocalDate today = LocalDate.now();
-        YearMonth currentMonth = YearMonth.from(today);
-        YearMonth previousMonth = currentMonth.minusMonths(1);
-        LocalDate startOfLastMonth = previousMonth.atDay(1);
-        LocalDate endOfLastMonth = previousMonth.atEndOfMonth();
 
-        List<Prescription>  prescriptions =  prescriptionRepository.findByPrescriptionDateBetween(startOfLastMonth, today);
+        String loggedInEmail = SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getName();
+
+        Doctor doctor = doctorRepository.findByEmail(loggedInEmail)
+                .orElseThrow(() -> new RuntimeException("Logged-in doctor not found: " + loggedInEmail));
+
+        LocalDate today = LocalDate.now();
+        LocalDate startOfLastMonth =today.minusDays(30);
+
+        List<Prescription>  prescriptions =  prescriptionRepository.findByDoctorIdAndPrescriptionDateBetween(doctor.getId(), startOfLastMonth, today);
         List<PrescriptionDTO> prescriptionDTOS = prescriptionMapper.convertAllToDTO(prescriptions);
         for (PrescriptionDTO prescriptionDTO : prescriptionDTOS) {
             Doctor doctor1 = doctorRepository.findById(prescriptionDTO.getDoctor_id()).orElseThrow();
@@ -155,8 +160,6 @@ public class PrescriptionServiceImpl implements PrescriptionService {
             prescriptionDTO.setPrescribedBy(doctor1.getName());
         }
         return prescriptionDTOS ;
-
-
     }
 
     @Transactional
@@ -186,6 +189,25 @@ public class PrescriptionServiceImpl implements PrescriptionService {
         return result;
 
 
+    }
+
+    @Override
+    public List<PrescriptionDTO> getPrescriptionSearchByFromDateToDate(LocalDate from,
+                                                                       LocalDate to){
+        String loggedInEmail = SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getName();
+
+        Doctor doctor = doctorRepository.findByEmail(loggedInEmail)
+                .orElseThrow(() -> new RuntimeException("Logged-in doctor not found: " + loggedInEmail));
+
+        List<Prescription> prescriptions = prescriptionRepository.findByDoctorIdAndPrescriptionDateBetween(doctor.getId(), from, to);
+        List<PrescriptionDTO> prescriptionDTOS = prescriptionMapper.convertAllToDTO(prescriptions);
+        for (PrescriptionDTO prescriptionDTO : prescriptionDTOS) {
+            Doctor doctor1 = doctorRepository.findById(prescriptionDTO.getDoctor_id()).orElseThrow();
+            prescriptionDTO.setPrescribedBy(doctor1.getName());
+        }
+        return prescriptionDTOS ;
     }
 
 }

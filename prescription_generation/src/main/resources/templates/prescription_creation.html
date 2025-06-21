@@ -4,17 +4,13 @@
     <meta charset="UTF-8">
     <title>Create Prescription</title>
     <!-- Bootstrap 5 CSS (via CDN) -->
-    <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-            integrity="sha384-ENjdO4Dr2bkBIFxQpeo5sBF11hpbnuMd2+IbbVYUew+OrCXaRkfj"
-            crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 </head>
 <body>
 <div class="container mt-5">
-    <h2 class="mb-4">Create Prescription</h2>
+    <h2 class="mb-4 text-success ">Create Prescription</h2>
 
-    <form th:action="@{/Prescription-create}" th:object="${prescription}" method="post">
+    <form th:action="@{/prescription-create}" th:object="${prescription}" method="post">
         <!-- Prescription Date -->
         <div class="mb-3 form-group">
             <label for="prescriptionDate" class="form-label">Prescription Date</label>
@@ -22,7 +18,11 @@
                    th:field="*{prescriptionDate}"
                    class="form-control"
                    id="prescriptionDate"
-                   required />
+                    />
+            <div class="text-danger" th:if="${#fields.hasErrors('prescriptionDate')}"
+                 th:errors="*{prescriptionDate}">
+                Date Error
+            </div>
         </div>
 
         <!-- Diagnosis -->
@@ -33,7 +33,11 @@
                       id="diagonosis"
                       rows="2"
                       placeholder="Enter diagnosis"
-                      required></textarea>
+                      ></textarea>
+            <div class="text-danger" th:if="${#fields.hasErrors('diagonosis')}"
+                 th:errors="*{diagonosis}">
+                Diagnosis Error
+            </div>
         </div>
 
         <!-- Medicines -->
@@ -44,7 +48,12 @@
                       id="medicines"
                       rows="3"
                       placeholder="List medicines"
-                      required></textarea>
+                      ></textarea>
+            <div class="text-danger" th:if="${#fields.hasErrors('medicines')}"
+                 th:errors="*{medicines}">
+                Medicines Error
+            </div>
+
         </div>
 
         <!-- Next Visit Date (optional) -->
@@ -62,7 +71,7 @@
             <select th:field="*{patient_id}"
                     class="form-select"
                     id="patient"
-                    required>
+                    >
                 <option th:each="pat : ${patients}"
                         th:value="${pat.id}"
                         th:text="${pat.name}">
@@ -72,12 +81,18 @@
 
         <button type="submit" class="btn btn-primary">Save Prescription</button>
     </form>
+</div>
 
 
     <!-- Bootstrap 5 JS Bundle (via CDN) -->
-<script
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-qQ2C6dXQ7BUuQIAN+8rIKHOf4HbChZTnniG7jKTIJMLg4ooEX5jvDys4NXh+EhF+"
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
 </body>
 </html>

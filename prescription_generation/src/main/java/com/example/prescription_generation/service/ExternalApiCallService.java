@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -17,9 +18,10 @@ public class ExternalApiCallService {
 
         private final RestTemplate restTemplate;
 
+        @Async
         public List<ExternalApiCallDTO> getAllPosts() {
 
-            String url = "https://prescription-generation.free.beeceptor.com/todos";
+            String url = "https://jsonplaceholder.typicode.com/comments";
 
             ResponseEntity<List<ExternalApiCallDTO>> response = restTemplate.exchange(
                     url,

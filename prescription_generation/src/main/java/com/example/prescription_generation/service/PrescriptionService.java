@@ -22,6 +22,6 @@ public interface PrescriptionService {
     List<PrescriptionDTO> getPrescriptionsByLoggedInDoctor();
     @Transactional
     void deleteById(Long id);
-
+    List<PrescriptionDTO> getPrescriptionSearchByFromDateToDate(LocalDate from,LocalDate to);
     List<DayWisePrescriptionCountDTO> getDayWisePrescriptionCount();
 }

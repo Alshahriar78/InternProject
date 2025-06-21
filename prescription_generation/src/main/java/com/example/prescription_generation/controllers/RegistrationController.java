@@ -5,6 +5,7 @@ import com.example.prescription_generation.model.dto.PatientDTO;
 import com.example.prescription_generation.model.entity.Muser.Doctor;
 import com.example.prescription_generation.model.entity.Muser.Patient;
 import com.example.prescription_generation.service.UserRegistrationService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ public class RegistrationController {
     private final UserRegistrationService userRegistrationService;
 
     @PostMapping("/register/doctor")
-    public ResponseEntity<?> registerDoctor(@RequestBody DoctorDTO doctorDTO) {
+    public ResponseEntity<?> registerDoctor(@Valid @RequestBody DoctorDTO doctorDTO) {
         try {
             Doctor registeredDoctor = userRegistrationService.registerDoctor(doctorDTO);
             
@@ -38,7 +39,7 @@ public class RegistrationController {
     }
 
     @PostMapping("/register/patient")
-    public ResponseEntity<?> registerPatient(@RequestBody PatientDTO patientDTO) {
+    public ResponseEntity<?> registerPatient(@Valid @RequestBody PatientDTO patientDTO) {
         try {
             Patient registeredPatient = userRegistrationService.registerPatient(patientDTO);
             

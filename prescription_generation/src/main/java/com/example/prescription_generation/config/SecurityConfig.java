@@ -48,7 +48,7 @@ public class SecurityConfig {
                                 "/doctor/register",
                                 "/API/V1/doctors/**",
                                 "/API/V1/patients/**",
-                                "/API/V1/prescriptions/**",
+                                "/API/V1/prescription/**",
                                 "/patient/register",
                                 "/v3/api-docs/**",
                                 "/swagger-ui/**",
@@ -70,7 +70,7 @@ public class SecurityConfig {
                 .formLogin(form -> form
                         .loginPage("/login")
                         .loginProcessingUrl("/perform_login")
-                        .defaultSuccessUrl("/dashboard", true)
+                        .defaultSuccessUrl("/prescription-list", true)
                         .failureUrl("/login?error=true")
                         .usernameParameter("email")
                         .passwordParameter("password")
