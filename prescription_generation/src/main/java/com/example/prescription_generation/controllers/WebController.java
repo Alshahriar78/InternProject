@@ -250,17 +250,37 @@ public class WebController {
 
     @GetMapping("/consume-external-API")
     public String showConsumeExternalAPI(
-            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "5") int size,
             Model model) {
 
         try {
-            model.addAttribute("externalApiCalls", externalApiCallService.getAllPosts());
+            List<ExternalApiCallDTO> allData = externalApiCallService.getAllPosts();
+
+            int totalItems = allData.size();
+            int totalPages = (int) Math.ceil((double) totalItems / size);
+            int start = (page - 1) * size;
+            int end = Math.min(start + size, totalItems);
+
+            if (start > totalItems) {
+                page = 1;
+                start = 0;
+                end = Math.min(size, totalItems);
+            }
+
+            List<ExternalApiCallDTO> pagedList = allData.subList(start, end);
+
+            model.addAttribute("externalApiCalls", pagedList);
+            model.addAttribute("currentPage", page);
+            model.addAttribute("totalPages", totalPages);
+
             return "external_api_response";
-        }catch (HttpClientErrorException.NotFound ex) {
+
+        } catch (HttpClientErrorException.NotFound ex) {
             model.addAttribute("externalApiCalls", Collections.emptyList());
             model.addAttribute("apiError", "Found No DATA");
             return "redirect:/dashboard?notFound=true";
         }
     }
+
 }

@@ -24,7 +24,6 @@ public class PrescriptionDTO {
     private String diagonosis;
     @NotBlank(message = "Medicines is required")
     private String medicines;
-    @NotNull(message = "Doctor name is required")
     private Long doctor_id;
     @NotNull(message = "Patient name is required")
     private Long patient_id;
